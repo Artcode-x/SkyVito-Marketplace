@@ -1,11 +1,11 @@
-import { Route, Routes } from 'react-router'
-import { Main } from './components/pages/Main'
+import { Route, Routes } from 'react-router-dom'
+import Main from './components/pages/Main'
 
 // import Login from './components/pages/login/login'
 // import Registration from './components/pages/registration/registration'
 // import MainNotReg from './components/pages/main/components/mainNotReg'
 
-export const AppRoutes = () => {
+function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={<Main />} />
@@ -23,3 +23,5 @@ export const AppRoutes = () => {
         </Routes>
     )
 }
+
+export default AppRoutes

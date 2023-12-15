@@ -1,10 +1,6 @@
-import { AppRoutes } from './AppRoutes'
+import AppRoutes from './AppRoutes'
 
 function Avito() {
-    return (
-        <>
-            <AppRoutes />
-        </>
-    )
+    return <AppRoutes />
 }
 export default Avito
