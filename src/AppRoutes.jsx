@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 // import Main from './components/pages/Main'
-import Profile from './pages/profile/Profile'
+// import Profile from './pages/profile/Profile'
+import Main from './pages/main/main'
 
 // import Login from './components/pages/login/login'
 // import Registration from './components/pages/registration/registration'
@@ -9,8 +10,9 @@ import Profile from './pages/profile/Profile'
 function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<Profile />} />
-            {/* <Route path="/" element={<Main />} /> */}
+            {/* profile готова */}
+            {/* <Route path="/" element={<Profile />} /> */}
+            <Route path="/" element={<Main />} />
             {/* <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/product/:id" element={<Product />} />
