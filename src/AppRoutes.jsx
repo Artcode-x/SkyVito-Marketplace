@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
-// import Main from './components/pages/Main'
 // import Profile from './pages/profile/Profile'
-import Main from './pages/main/main'
+// import Main from './pages/main/main'
+// import Header from './components/header/header'
+import AdvPage from './pages/advpage/advpage'
 
 // import Login from './components/pages/login/login'
 // import Registration from './components/pages/registration/registration'
@@ -12,7 +13,11 @@ function AppRoutes() {
         <Routes>
             {/* profile готова */}
             {/* <Route path="/" element={<Profile />} /> */}
-            <Route path="/" element={<Main />} />
+
+            {/* main готова */}
+            {/* <Route path="/" element={<Main />} /> */}
+
+            <Route path="/" element={<AdvPage />} />
             {/* <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/product/:id" element={<Product />} />
