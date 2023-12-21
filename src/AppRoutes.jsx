@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
-// import Profile from './pages/profile/Profile'
-// import Main from './pages/main/main'
+import Profile from './pages/profile/Profile'
+import Main from './pages/main/main'
 // import Header from './components/header/header'
 import AdvPage from './pages/advpage/advpage'
 
@@ -12,12 +12,12 @@ function AppRoutes() {
     return (
         <Routes>
             {/* profile готова */}
-            {/* <Route path="/" element={<Profile />} /> */}
+            <Route path="/profile" element={<Profile />} />
 
             {/* main готова */}
-            {/* <Route path="/" element={<Main />} /> */}
+            <Route path="/" element={<Main />} />
 
-            <Route path="/" element={<AdvPage />} />
+            <Route path="/adv" element={<AdvPage />} />
             {/* <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/product/:id" element={<Product />} />

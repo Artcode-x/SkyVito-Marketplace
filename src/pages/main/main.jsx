@@ -11,6 +11,8 @@ import img from '../../components/img/logo.png'
 import Products from '../../components/products/products'
 
 function Main() {
+    //    const AllAds = GetAllAds()
+
     // const dispatch = useDispatch()
     // const user = useSelector(userSelector)
     // const click = () => {

@@ -1,9 +1,10 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     user: {},
     search: {},
+    advsAll: [],
 }
 
 const reducers = createSlice({
@@ -15,8 +16,12 @@ const reducers = createSlice({
         },
         userStateUpdate2: (state, action) => {
             state.user = action.payload
-        }
-    }
+        },
+        advsAllUpdate: (state, action) => {
+            state.advsAll = action.payload
+        },
+    },
 })
-export const {userStateUpdate, userStateUpdate2} = reducers.actions
+export const { userStateUpdate, userStateUpdate2, advsAllUpdate } =
+    reducers.actions
 export default reducers
