@@ -20,6 +20,7 @@ export const ContentCards = styled.div`
 `
 
 export const CardsItem = styled.div`
+    display: ${(props) => (props.search ? 'block' : 'none')};
     margin: 0;
 `
 

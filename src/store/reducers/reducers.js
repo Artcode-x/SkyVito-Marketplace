@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     user: {},
-    search: {},
+    search: '',
     advsAll: [],
 }
 
@@ -20,8 +20,11 @@ const reducers = createSlice({
         advsAllUpdate: (state, action) => {
             state.advsAll = action.payload
         },
+        searchUpdate: (state, action) =>  {
+            state.search = action.payload
+        }
     },
 })
-export const { userStateUpdate, userStateUpdate2, advsAllUpdate } =
+export const { userStateUpdate, userStateUpdate2, advsAllUpdate, searchUpdate } =
     reducers.actions
 export default reducers

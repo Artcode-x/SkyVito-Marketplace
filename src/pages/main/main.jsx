@@ -5,12 +5,20 @@
 //     userStateUpdate2,
 // } from '../../store/reducers/reducers'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import Header from '../../components/header/header'
 import * as S from './main.styled'
 import img from '../../components/img/logo.png'
 import Products from '../../components/products/products'
+import { searchUpdate } from '../../store/reducers/reducers'
 
 function Main() {
+    const dispatch = useDispatch()
+
+    // const setSearchType = (e) => {
+    //     dispatch(searchUpdate(e))
+    // }
+
     //    const AllAds = GetAllAds()
 
     // const dispatch = useDispatch()
@@ -35,7 +43,7 @@ function Main() {
                     <S.SearchText
                         type="search"
                         name="search"
-                        // onChange={(e) => setSearchType(e.target.value)}
+                        onChange={(e) => dispatch(searchUpdate(e.target.value))}
                     />
                 </S.SearchForm>
                 <S.SearchBtn>Найти</S.SearchBtn>

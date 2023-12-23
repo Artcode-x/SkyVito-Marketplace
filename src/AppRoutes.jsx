@@ -3,10 +3,7 @@ import Profile from './pages/profile/Profile'
 import Main from './pages/main/main'
 // import Header from './components/header/header'
 import AdvPage from './pages/advpage/advpage'
-
-// import Login from './components/pages/login/login'
-// import Registration from './components/pages/registration/registration'
-// import MainNotReg from './components/pages/main/components/mainNotReg'
+import SellerProfile from './pages/profile/seller-profile'
 
 function AppRoutes() {
     return (
@@ -17,7 +14,11 @@ function AppRoutes() {
             {/* main готова */}
             <Route path="/" element={<Main />} />
 
+            {/* adv готова */}
             <Route path="/adv" element={<AdvPage />} />
+
+            <Route path="/selProfile" element={<SellerProfile />} />
+
             {/* <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/product/:id" element={<Product />} />
