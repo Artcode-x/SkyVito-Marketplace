@@ -64,6 +64,7 @@ export const CardTitle = styled.h3`
     margin-top: 20px;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 `
 export const CardPrice = styled.a`
     color: #000000;

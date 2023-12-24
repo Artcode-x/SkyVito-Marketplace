@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+// import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import * as S from './products.styled'
 import noPhoto from '../img/no-photo.avif'
 import GetAllAds from '../../api/api'
@@ -7,11 +9,13 @@ import {
     advsAllSelector,
     searchSelector,
 } from '../../store/selectors/selectors'
-import { advsAllUpdate } from '../../store/reducers/reducers'
+import { advsAllUpdate, userSelProdUpdate } from '../../store/reducers/reducers'
+import { formatTitle } from '../../helpers/helpers'
 
 function Products() {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
-    // let allAd = []
+
     const allAd = useSelector(advsAllSelector)
     // const allAd = useSelector((store) => store.store.advsAll)
 
@@ -29,15 +33,25 @@ function Products() {
 
     // тут пишем search вместо searchInputText - чтобы избежать коллизии имен (18/46 стр) (а так это одно и тоже)
     const searchItem = (title, search) => {
-        // привести к нижнему рег
-
+        // приводим к нижнему регистру
         // методом search Проверка идет по каждому символу
         // если совпадений не найдено, будет -1 и return false, и в пропс S.CardsItem вернется display:none - скроет все обьявления
-        if (title.search(search) === -1) return false
+        if (title.toLowerCase().search(search.toLowerCase()) === -1)
+            return false
         // если true - в пропс S.CardsItem вернется display:block - будут отображены совпадения в обьявлениях
         return true
     }
+    const selectProduct = (ad) => {
+        dispatch(userSelProdUpdate(ad))
+        // записать в редакс объект с обьявлением, которое выбрал user
+        // далее исп-ем эти данные на стр advpage, для отображения объявления
 
+        // сохраняем в localhost для дальнейшей реализации некоторых проверок
+        localStorage.setItem('UserSelectedAd', JSON.stringify(ad))
+        // Делаем адрес (выбранного юзером объвл-ия) в браузере похожим на авито. Сначала заголовок, затем id объявления
+        // ф-ия formatTitle из helpers заменяет пробел на прочерк в браузере
+        navigate(`/adv/${formatTitle(ad.title)}_${ad.id}`)
+    }
     useEffect(() => {
         fromApi()
     }, [])
@@ -62,23 +76,17 @@ function Products() {
                             )}
                         </S.CardImage>
                         <S.CardContent>
-                            <S.CardTitle>
+                            <S.CardTitle onClick={() => selectProduct(ad)}>
+                                {/* <Link to={`/adv/${ad.id}`}> */}
                                 {ad.title}
-                                {/* Ракетка для большого тенниса Triumph Pro ST */}
+                                {/* </Link> */}
                             </S.CardTitle>
-                            <S.CardPrice>
-                                {ad.price}
-                                {/* 2 200 ₽ */}
-                            </S.CardPrice>
-                            <S.CardPlace>
-                                {ad.user.city}
-                                {/* Санкт Петербург */}
-                            </S.CardPlace>
+                            <S.CardPrice>{ad.price}</S.CardPrice>
+                            <S.CardPlace>{ad.user.city}</S.CardPlace>
                             <S.CardDate>
                                 {new Date(ad.created_on).toLocaleString('ru', {
                                     addSuffix: true,
                                 })}
-                                {/* Сегодня в 10:45 */}
                             </S.CardDate>
                         </S.CardContent>
                     </S.CardsCard>

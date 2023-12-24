@@ -5,6 +5,7 @@ const initialState = {
     user: {},
     search: '',
     advsAll: [],
+    userSelectProduct: {},
 }
 
 const reducers = createSlice({
@@ -20,11 +21,19 @@ const reducers = createSlice({
         advsAllUpdate: (state, action) => {
             state.advsAll = action.payload
         },
-        searchUpdate: (state, action) =>  {
+        searchUpdate: (state, action) => {
             state.search = action.payload
-        }
+        },
+        userSelProdUpdate: (state, action) => {
+            state.userSelectProduct = action.payload
+        },
     },
 })
-export const { userStateUpdate, userStateUpdate2, advsAllUpdate, searchUpdate } =
-    reducers.actions
+export const {
+    userStateUpdate,
+    userStateUpdate2,
+    advsAllUpdate,
+    searchUpdate,
+    userSelProdUpdate,
+} = reducers.actions
 export default reducers

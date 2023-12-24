@@ -1,12 +1,27 @@
+import { useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Header from '../../components/header/header'
 import UpMenu from '../../components/up-menu/up-menu'
 import * as S from './advpage.styled'
 import noPhoto from '../../components/img/no-photo.avif'
+import { userSelProdSelector } from '../../store/selectors/selectors'
 
 function AdvPage() {
+    const navigate = useNavigate()
+    // обращаемся к данным с редакса, для пол-ия объявления что выбрал user, и используем как ключ
+    const UserSelectProd = useSelector(userSelProdSelector)
+
+    // изн номер скрыт
+    const [userPhoneBtn, setShowUserPhoneBtn] = useState(true)
+    const showUserPhone = () => {
+        // показать номер по нажатию
+        setShowUserPhoneBtn(false)
+    }
     return (
         <>
             <Header />
+
             <S.MainContainer>
                 {/* <S.MainMenu> */}
                 <UpMenu />
@@ -17,25 +32,41 @@ function AdvPage() {
                             <S.ArticleFillImg>
                                 <S.ArticleImgDiv>
                                     {/* тут фотка товара */}
-                                    <S.ArticleImgImg src={noPhoto} />
+                                    <S.ArticleImgImg
+                                        src={`http://localhost:8090/${UserSelectProd.images[0]?.url}`}
+                                    />
                                 </S.ArticleImgDiv>
                                 <S.ArticleImgBar>
                                     {/* тут будет метод map изображений */}
-                                    <S.ArticleImgBarDiv>
-                                        <S.ArticleBarDivImg src={noPhoto} />
-                                    </S.ArticleImgBarDiv>
-                                    <S.ArticleImgBarDiv>
-                                        <S.ArticleBarDivImg src={noPhoto} />
-                                    </S.ArticleImgBarDiv>
-                                    <S.ArticleImgBarDiv>
-                                        <S.ArticleBarDivImg src={noPhoto} />
-                                    </S.ArticleImgBarDiv>
-                                    <S.ArticleImgBarDiv>
-                                        <S.ArticleBarDivImg src={noPhoto} />
-                                    </S.ArticleImgBarDiv>
-                                    <S.ArticleImgBarDiv>
-                                        <S.ArticleBarDivImg src={noPhoto} />
-                                    </S.ArticleImgBarDiv>
+
+                                    {UserSelectProd.images?.map((img) => (
+                                        <S.ArticleImgBarDiv>
+                                            <S.ArticleBarDivImg
+                                                src={`http://localhost:8090/${img.url}`}
+                                                // src={`http://localhost:8090/${img.images[0].url}`}
+                                            />
+                                        </S.ArticleImgBarDiv>
+                                    ))}
+                                    {/* <S.ArticleImgBarDiv>
+                                            <S.ArticleBarDivImg
+                                                src={`http://localhost:8090/${adv.images[0].url}`}
+                                            />
+                                        </S.ArticleImgBarDiv>
+                                        <S.ArticleImgBarDiv>
+                                            <S.ArticleBarDivImg
+                                                src={`http://localhost:8090/${adv.images[0].url}`}
+                                            />
+                                        </S.ArticleImgBarDiv>
+                                        <S.ArticleImgBarDiv>
+                                            <S.ArticleBarDivImg
+                                                src={`http://localhost:8090/${adv.images[0].url}`}
+                                            />
+                                        </S.ArticleImgBarDiv>
+                                        <S.ArticleImgBarDiv>
+                                            <S.ArticleBarDivImg
+                                                src={`http://localhost:8090/${adv.images[0].url}`}
+                                            />
+                                        </S.ArticleImgBarDiv> */}
                                     {/* stop */}
                                 </S.ArticleImgBar>
                                 {/* тут что то под моб версию */}
@@ -45,33 +76,71 @@ function AdvPage() {
                         <S.ArticleRight>
                             <S.ArticleBlock>
                                 <S.ArticleTitle>
-                                    Ракетка для большого тенниса Triumph Pro STС
-                                    Б/У
+                                    {UserSelectProd.title}
                                 </S.ArticleTitle>
                                 <S.ArticleInfo>
                                     <S.ArticleDate>
-                                        Сегодня в 10:45
+                                        {UserSelectProd.created_on}
+                                        {/* {new Date(
+                                            UserSelectProd.created_on
+                                        ).toLocalString('ru', {
+                                            weekday: 'long',
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: 'numeric',
+                                            minute: 'numeric',
+                                        })} */}
+
+                                        {/* Сегодня в 10:45 */}
                                     </S.ArticleDate>
                                     <S.ArticleCity>
-                                        Санкт-Петербург
+                                        {UserSelectProd.user?.city}
                                     </S.ArticleCity>
                                 </S.ArticleInfo>
-                                <S.ArticlePrice>2 200 ₽</S.ArticlePrice>
-                                <S.ArticleBtn>
+                                <S.ArticlePrice>
+                                    {UserSelectProd.price}
+                                </S.ArticlePrice>
+                                <S.ArticleBtn onClick={showUserPhone}>
                                     Показать телефон
                                     <S.ArticleBtnSpan>
-                                        8 905 ХХХ ХХ ХХ
+                                        {userPhoneBtn
+                                            ? `+7 XXX XXX XX XX`
+                                            : UserSelectProd.user?.phone}
+                                        {UserSelectProd.user?.phone}
                                     </S.ArticleBtnSpan>
                                 </S.ArticleBtn>
+
                                 <S.ArticleAuthor>
-                                    {/* блок с картинкой */}
                                     <S.AuthorImg>
-                                        <S.AuthorImgImg src={noPhoto} />
+                                        {/* Покажем аватар если он есть */}
+                                        {UserSelectProd.user?.avatar ? (
+                                            <S.AuthorImgImg
+                                                src={`http://localhost:8090/${UserSelectProd.user.avatar}`}
+                                                alt="avaUsera"
+                                            />
+                                        ) : (
+                                            <S.AuthorImgImg
+                                                src={noPhoto}
+                                                alt="noAva"
+                                            />
+                                        )}
                                     </S.AuthorImg>
-                                    <S.AuthorCont>
-                                        <S.AuthorName>Кирилл</S.AuthorName>
+
+                                    {/* зачем тут key? */}
+                                    <S.AuthorCont
+                                        key={UserSelectProd.user?.id}
+                                        onClick={() =>
+                                            navigate(
+                                                `/profile/${UserSelectProd.user.id}`
+                                            )
+                                        }
+                                    >
+                                        <S.AuthorName>
+                                            {UserSelectProd.user?.name}
+                                        </S.AuthorName>
                                         <S.AuthorAbout>
-                                            Продает товары с августа 2021
+                                            {UserSelectProd.user?.sells_from}
                                         </S.AuthorAbout>
                                     </S.AuthorCont>
                                 </S.ArticleAuthor>
@@ -80,20 +149,10 @@ function AdvPage() {
                     </S.ArticContent>
                 </S.MainArtic>
 
-                <S.MainTitle>Описание товара</S.MainTitle>
+                <S.MainTitle>{UserSelectProd.title}</S.MainTitle>
                 <S.MainContent>
                     {/* описание в этом блоке будем получать с {data} */}
-                    <S.MainText>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum.
-                    </S.MainText>
+                    <S.MainText>{UserSelectProd.description}</S.MainText>
                 </S.MainContent>
             </S.MainContainer>
         </>

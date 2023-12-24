@@ -7,3 +7,6 @@ export const userSelector = (store) => mainSelector(store).user
 export const advsAllSelector = (store) => mainSelector(store).advsAll
 
 export const searchSelector = (store) => mainSelector(store).search
+
+export const userSelProdSelector = (store) =>
+    mainSelector(store).userSelectProduct
