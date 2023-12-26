@@ -46,11 +46,15 @@ export const SettingsImg = styled.div`
     background-color: #f0f0f0;
 `
 export const Img = styled.img`
-    width: 100%;
-    height: auto;
-    display: block;
-    -o-object-fit: cover;
-    object-fit: cover;
+    // width: 100%;
+    // height: auto;
+    // display: block;
+    // -o-object-fit: cover;
+    // object-fit: cover;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
 `
 export const SettingsChangeFoto = styled.button`
     margin-top: 10px;

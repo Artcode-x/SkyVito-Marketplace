@@ -185,6 +185,7 @@ export const ArticleBtn = styled.button`
     line-height: 22px;
     color: #ffffff;
     font-family: 'Roboto', sans-serif;
+    cursor: pointer;
 `
 export const ArticleBtnSpan = styled.span`
     display: block;
@@ -227,6 +228,7 @@ export const AuthorName = styled.p`
     line-height: 26px;
     font-weight: 600;
     color: #009ee4;
+    cursor: pointer;
 `
 export const AuthorAbout = styled.p`
     font-size: 16px;

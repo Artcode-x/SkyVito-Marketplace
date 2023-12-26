@@ -1,7 +1,11 @@
+import { useSelector } from 'react-redux'
 import * as S from './settingsprofile.styled'
 import noPhoto from '../img/myprofile.png'
+import { userSelector } from '../../store/selectors/selectors'
 
 function SettingsProfile() {
+    const user = useSelector(userSelector)
+
     return (
         <S.MainProfile>
             <S.ProfileContent>
@@ -10,25 +14,27 @@ function SettingsProfile() {
                     <S.SettingsLeft>
                         <S.SettingsImg>
                             {/*  логика */}
-                            {/* {userProfile.avatar ? (
-                            <S.Img 
-                            src={
-                                img ? URL.createObjectURL(img) : `http://localhost:8090/${userProfile.avatar}`  
-                            }
-                            />
-                            ) : (<S.Img src = {noPhoto}/>
-                            )} */}
-                            <S.Img src={noPhoto} />
+                            {user.avatar ? (
+                                <S.Img
+                                    src={`http://localhost:8090/${user.avatar}`}
+                                />
+                            ) : (
+                                <S.Img src={noPhoto} />
+                            )}
                         </S.SettingsImg>
                         <S.SettingsChangeFoto>Заменить</S.SettingsChangeFoto>
                     </S.SettingsLeft>
                     <S.SettingsRight>
                         <S.SettingsForm>
                             <S.SettingsDiv>
-                                <S.SettingsFormLabel>Имя</S.SettingsFormLabel>
+                                <S.SettingsFormLabel>
+                                    Имя
+                                    {/* {user.name} */}
+                                </S.SettingsFormLabel>
                                 <S.SettingsFormInput
                                     name="name"
                                     type="text"
+                                    placeholder={user.name}
                                     // onChange={(e) =>
                                     //     handleName(e)
                                     // }
@@ -41,6 +47,7 @@ function SettingsProfile() {
                                 <S.SettingsFormInput
                                     name="surname"
                                     type="text"
+                                    placeholder={user.surname}
                                     // onChange={(e) =>
                                     //     handleSurname(e)
                                     // }
@@ -51,6 +58,7 @@ function SettingsProfile() {
                                 <S.SettingsFormInput
                                     name="city"
                                     type="text"
+                                    placeholder={user.city}
                                     // onChange={(e) =>
                                     //     handleCity(e)
                                     // }
@@ -64,6 +72,7 @@ function SettingsProfile() {
                                 <S.PhoneInput
                                     name="phone"
                                     type="tel"
+                                    placeholder={user.phone}
                                     // onChange={(e) =>
                                     //     handlePhone(e)
                                     // }

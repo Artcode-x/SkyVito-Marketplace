@@ -11,7 +11,7 @@ function AppRoutes() {
     return (
         <Routes>
             {/* profile готова */}
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile />} />
 
             {/* main готова */}
             <Route path="/" element={<Main />} />

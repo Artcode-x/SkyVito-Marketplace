@@ -41,4 +41,5 @@ export const MenuBtnS = styled.button`
     font-size: 16px;
     line-height: 1;
     color: #ffffff;
+    cursor: pointer;
 `
