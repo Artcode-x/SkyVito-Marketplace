@@ -1,111 +1,100 @@
+import { useSelector } from 'react-redux'
+import { useState } from 'react'
 import * as S from './seller-profile.styled'
-import Header from '../../components/header/header'
+import CustomHeader from '../../components/custom-header/custom-header'
 import UpMenu from '../../components/up-menu/up-menu'
 import noPhoto from '../../components/img/no-photo.avif'
+import { userSelProdSelector } from '../../store/selectors/selectors'
+import Products from '../../components/products/products'
 
 function SellerProfile() {
+    // обращаемся к данным с редакса, для получения объявления что выбрал user, и используем как ключ
+    // тут будет записана инфа о конкретном обьявлении что выбрали
+    const UserSelectProd = useSelector(userSelProdSelector)
+
+    const [showSellerPhoneBtn, setShowSellerPhoneBtn] = useState(false)
+
+    const showSellerPhone = () => {
+        // показать номер по нажатию
+        setShowSellerPhoneBtn(true)
+    }
+
+    // useEffect(() => {
+    //     console.log(UserSelectProd.user.id)
+    // })
+
     return (
         <>
-            <Header />
+            <CustomHeader />
             <S.MainContainer>
                 {/* <S.MainMenu> */}
                 <UpMenu />
                 {/* </S.MainMenu> */}
-                <S.MainArtic>
-                    <S.ArticContent>
-                        <S.ArticleLeft>
-                            <S.ArticleFillImg>
-                                <S.ArticleImgDiv>
-                                    {/* тут фотка товара */}
-                                    <S.ArticleImgImg src={noPhoto} />
-                                </S.ArticleImgDiv>
-                                <S.ArticleImgBar>
-                                    {/* тут будет метод map изображений */}
-                                    <S.ArticleImgBarDiv>
-                                        <S.ArticleBarDivImg src={noPhoto} />
-                                    </S.ArticleImgBarDiv>
-                                    <S.ArticleImgBarDiv>
-                                        <S.ArticleBarDivImg src={noPhoto} />
-                                    </S.ArticleImgBarDiv>
-                                    <S.ArticleImgBarDiv>
-                                        <S.ArticleBarDivImg src={noPhoto} />
-                                    </S.ArticleImgBarDiv>
-                                    <S.ArticleImgBarDiv>
-                                        <S.ArticleBarDivImg src={noPhoto} />
-                                    </S.ArticleImgBarDiv>
-                                    <S.ArticleImgBarDiv>
-                                        <S.ArticleBarDivImg src={noPhoto} />
-                                    </S.ArticleImgBarDiv>
-                                    {/* stop */}
-                                </S.ArticleImgBar>
-                                {/* тут что то под моб версию */}
-                            </S.ArticleFillImg>
-                        </S.ArticleLeft>
+                <S.MainContainer>
+                    <S.MainCenterBlock>
+                        ..
+                        <S.MainH2>Профиль продавца</S.MainH2>
+                        <S.MainProfileSell>
+                            <S.ProfileSellContent>
+                                <S.ProfileSellSeller>
+                                    <S.SellerLeft>
+                                        <S.SellerImg>
+                                            {UserSelectProd.user?.avatar ? (
+                                                <S.SellerImgImg
+                                                    src={`http://localhost:8090/${UserSelectProd.user.avatar}`}
+                                                    alt="avaUsera"
+                                                />
+                                            ) : (
+                                                <S.SellerImgImg
+                                                    src={noPhoto}
+                                                    alt="noAva"
+                                                />
+                                            )}
+                                        </S.SellerImg>
+                                    </S.SellerLeft>
+                                    <S.SellerRight>
+                                        <S.SellerTitle>
+                                            {UserSelectProd?.user.name}
+                                        </S.SellerTitle>
+                                        <S.SellerCity>
+                                            {UserSelectProd?.user.city}
+                                        </S.SellerCity>
+                                        <S.SellerInf>
+                                            Продает товары с{' '}
+                                            {new Date(
+                                                UserSelectProd?.user.sells_from
+                                            ).toLocaleString('ru', {
+                                                year: 'numeric',
+                                                month: 'long',
+                                            })}
+                                        </S.SellerInf>
 
-                        <S.ArticleRight>
-                            <S.ArticleBlock>
-                                <S.ArticleTitle>
-                                    Ракетка для большого тенниса Triumph Pro STС
-                                    Б/У
-                                </S.ArticleTitle>
-                                <S.ArticleInfo>
-                                    <S.ArticleDate>
-                                        Сегодня в 10:45
-                                    </S.ArticleDate>
-                                    <S.ArticleCity>
-                                        Санкт-Петербург
-                                    </S.ArticleCity>
-                                </S.ArticleInfo>
-                                <S.ArticlePrice>2 200 ₽</S.ArticlePrice>
-                                {/* ТОЛЬКО ТУТ БЛОК МЕНЯЕТСЯ */}
+                                        <S.SellerImgMobBlock>
+                                            <S.SellerImgMob>
+                                                <S.SellerImgMobImg
+                                                    src="#"
+                                                    alt=""
+                                                />
+                                            </S.SellerImgMob>
+                                        </S.SellerImgMobBlock>
 
-                                {/* <S.ArticleBtn>
-                                    Показать телефон
-                                    <S.ArticleBtnSpan>
-                                        8 905 ХХХ ХХ ХХ
-                                    </S.ArticleBtnSpan>
-                                </S.ArticleBtn> */}
-                                <S.ArticleBtnBlock>
-                                    <S.ArticleBtnRedact>
-                                        Редактировать
-                                    </S.ArticleBtnRedact>
-                                    <S.ArticleBtnRemove>
-                                        Снять с публикации
-                                    </S.ArticleBtnRemove>
-                                </S.ArticleBtnBlock>
+                                        <S.ArticleBtn onClick={showSellerPhone}>
+                                            {showSellerPhoneBtn === true
+                                                ? UserSelectProd.user.phone
+                                                : 'Показать телефон'}
 
-                                <S.ArticleAuthor>
-                                    {/* блок с картинкой */}
-                                    <S.AuthorImg>
-                                        <S.AuthorImgImg src={noPhoto} />
-                                    </S.AuthorImg>
-                                    <S.AuthorCont>
-                                        <S.AuthorName>Кирилл</S.AuthorName>
-                                        <S.AuthorAbout>
-                                            Продает товары с августа 2021
-                                        </S.AuthorAbout>
-                                    </S.AuthorCont>
-                                </S.ArticleAuthor>
-                            </S.ArticleBlock>
-                        </S.ArticleRight>
-                    </S.ArticContent>
-                </S.MainArtic>
-
-                <S.MainTitle>Описание товара</S.MainTitle>
-                <S.MainContent>
-                    {/* описание в этом блоке будем получать с {data} */}
-                    <S.MainText>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in
-                        reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                        non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum.
-                    </S.MainText>
-                </S.MainContent>
+                                            <S.ArticleBtnSpan />
+                                        </S.ArticleBtn>
+                                    </S.SellerRight>
+                                </S.ProfileSellSeller>
+                            </S.ProfileSellContent>
+                        </S.MainProfileSell>
+                        <S.MainTitle>Товары продавца</S.MainTitle>
+                    </S.MainCenterBlock>
+                    <S.MainContent>
+                        <Products id={UserSelectProd?.user.id} />
+                    </S.MainContent>
+                </S.MainContainer>
             </S.MainContainer>
         </>
     )

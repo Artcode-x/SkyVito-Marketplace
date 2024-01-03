@@ -84,6 +84,68 @@ export function formatTitle(string) {
     return ''
 }
 
+// Эта ф-ия заменит символ / в адресной строке, чтобы отобразилось объявление со смартфоном. До этого этот символ ломал адрес
+export function formatSymbols(string) {
+    if (string) {
+        const customString = string.toLowerCase()
+        return formatTitle(customString.replace(/[/]/g, '-'))
+    }
+
+    return ''
+}
+
+// форматируем адрес максимально близко к авито
+export function formatUrl(url) {
+    const iReplace = {
+        а: 'a',
+        б: 'b',
+        в: 'v',
+        г: 'g',
+        д: 'd',
+        е: 'e',
+        ё: 'e',
+        ж: 'zh',
+        з: 'z',
+        и: 'i',
+        й: 'y',
+        к: 'k',
+        л: 'l',
+        м: 'm',
+        н: 'n',
+        о: 'o',
+        п: 'p',
+        р: 'r',
+        с: 's',
+        т: 't',
+        у: 'u',
+        ф: 'f',
+        х: 'h',
+        ц: 'c',
+        ч: 'ch',
+        ш: 'sh',
+        щ: 'sch',
+        ь: '',
+        ы: 'y',
+        ъ: '',
+        э: 'e',
+        ю: 'yu',
+        я: 'ya',
+    }
+
+    let result = ''
+
+    for (let i = 0; i < url.length; i += 1) {
+        if (iReplace[formatLowString(url[i])] === undefined) {
+            result += formatLowString(url[i])
+        } else {
+            result += iReplace[formatLowString(url[i])]
+        }
+    }
+
+    result = result.replace(/[^-0-9a-z()]/g, '-')
+    return result
+}
+
 // Search
 
 export function searchItem(title, search) {

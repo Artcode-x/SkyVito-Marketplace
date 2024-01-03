@@ -7,9 +7,10 @@ async function GetAllAds() {
     // возвр нужн-ю нам инфо, она в data
     return response.data
 }
-
-export async function GetUserAd({ userid }) {
-    const response = await axios.get(`${way}/ads?user_id=${userid}&sorting=new`)
+// &sorting=new
+export async function GetUserAd({ id }) {
+    console.log(id)
+    const response = await axios.get(`${way}/ads?user_id=${id}`)
     // возвр нужн-ю нам инфо, она в data
     return response.data
 }

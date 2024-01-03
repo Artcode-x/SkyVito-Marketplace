@@ -1,19 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
+
 import { useNavigate } from 'react-router-dom'
-import Header from '../../components/header/header'
+import { useState } from 'react'
+import CustomHeader from '../../components/custom-header/custom-header'
 import UpMenu from '../../components/up-menu/up-menu'
 import * as S from './advpage.styled'
 import noPhoto from '../../components/img/no-photo.avif'
 import { userSelProdSelector } from '../../store/selectors/selectors'
 import { userStateUpdate2 } from '../../store/reducers/reducers'
+import { formatDate, formatSellsDate } from '../../helpers/helpers'
 
 function AdvPage() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     // обращаемся к данным с редакса, для пол-ия объявления что выбрал user, и используем как ключ
     const UserSelectProd = useSelector(userSelProdSelector)
-    console.log(UserSelectProd)
+
     // изн номер скрыт
     const [userPhoneBtn, setShowUserPhoneBtn] = useState(true)
     const showUserPhone = () => {
@@ -21,14 +23,14 @@ function AdvPage() {
         setShowUserPhoneBtn(false)
     }
 
-    const clickToUserProfile = () => {
-        navigate(`/profile/${UserSelectProd.user.id}`)
+    const clickToSellerProfile = () => {
         dispatch(userStateUpdate2(UserSelectProd.user))
+        navigate(`/selProfile/${UserSelectProd.user.id}`)
     }
     return (
         <>
-            <Header />
-
+            {/* <Header /> */}
+            <CustomHeader />
             <S.MainContainer>
                 {/* <S.MainMenu> */}
                 <UpMenu />
@@ -45,7 +47,6 @@ function AdvPage() {
                                 </S.ArticleImgDiv>
                                 <S.ArticleImgBar>
                                     {/* тут будет метод map изображений */}
-
                                     {UserSelectProd.images?.map((img) => (
                                         <S.ArticleImgBarDiv key={img.id}>
                                             <S.ArticleBarDivImg
@@ -54,27 +55,6 @@ function AdvPage() {
                                             />
                                         </S.ArticleImgBarDiv>
                                     ))}
-                                    {/* <S.ArticleImgBarDiv>
-                                            <S.ArticleBarDivImg
-                                                src={`http://localhost:8090/${adv.images[0].url}`}
-                                            />
-                                        </S.ArticleImgBarDiv>
-                                        <S.ArticleImgBarDiv>
-                                            <S.ArticleBarDivImg
-                                                src={`http://localhost:8090/${adv.images[0].url}`}
-                                            />
-                                        </S.ArticleImgBarDiv>
-                                        <S.ArticleImgBarDiv>
-                                            <S.ArticleBarDivImg
-                                                src={`http://localhost:8090/${adv.images[0].url}`}
-                                            />
-                                        </S.ArticleImgBarDiv>
-                                        <S.ArticleImgBarDiv>
-                                            <S.ArticleBarDivImg
-                                                src={`http://localhost:8090/${adv.images[0].url}`}
-                                            />
-                                        </S.ArticleImgBarDiv> */}
-                                    {/* stop */}
                                 </S.ArticleImgBar>
                                 {/* тут что то под моб версию */}
                             </S.ArticleFillImg>
@@ -87,19 +67,8 @@ function AdvPage() {
                                 </S.ArticleTitle>
                                 <S.ArticleInfo>
                                     <S.ArticleDate>
-                                        {UserSelectProd.created_on}
-                                        {/* {new Date(
-                                            UserSelectProd.created_on
-                                        ).toLocalString('ru', {
-                                            weekday: 'long',
-                                            year: 'numeric',
-                                            month: 'long',
-                                            day: 'numeric',
-                                            hour: 'numeric',
-                                            minute: 'numeric',
-                                        })} */}
-
-                                        {/* Сегодня в 10:45 */}
+                                        {/* Берем ф-ию с helpers для форматирования отображения даты */}
+                                        {formatDate(UserSelectProd.created_on)}
                                     </S.ArticleDate>
                                     <S.ArticleCity>
                                         {UserSelectProd.user?.city}
@@ -136,7 +105,7 @@ function AdvPage() {
                                     <S.AuthorCont
                                         key={UserSelectProd.user?.id}
                                         onClick={
-                                            () => clickToUserProfile()
+                                            () => clickToSellerProfile()
                                             // navigate(
                                             //     `/profile/${UserSelectProd.user.id}`)
                                         }
@@ -145,7 +114,11 @@ function AdvPage() {
                                             {UserSelectProd.user?.name}
                                         </S.AuthorName>
                                         <S.AuthorAbout>
-                                            {UserSelectProd.user?.sells_from}
+                                            Продает товары с{' '}
+                                            {formatSellsDate(
+                                                UserSelectProd.user.sells_from
+                                            )}
+                                            {/* {UserSelectProd.user?.sells_from} */}
                                         </S.AuthorAbout>
                                     </S.AuthorCont>
                                 </S.ArticleAuthor>

@@ -1,17 +1,21 @@
 import { Route, Routes } from 'react-router-dom'
 import Profile from './pages/profile/Profile'
 import Main from './pages/main/main'
-// import Header from './components/header/header'
 import AdvPage from './pages/advpage/advpage'
 import SellerProfile from './pages/profile/seller-profile'
 import Login from './pages/login/login'
 import Registration from './pages/lRegistration/registration'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 
 function AppRoutes() {
     return (
         <Routes>
             {/* profile готова */}
-            <Route path="/profile/:id" element={<Profile />} />
+
+            {/* isAllowed={Boolean(user)} */}
+            <Route element={<ProtectedRoute />}>
+                <Route path="/profile/:id" element={<Profile />} />
+            </Route>
 
             {/* main готова */}
             <Route path="/" element={<Main />} />
@@ -20,7 +24,7 @@ function AppRoutes() {
             <Route path="/adv/:id" element={<AdvPage />} />
 
             {/* SellerProfile готова */}
-            <Route path="/selProfile" element={<SellerProfile />} />
+            <Route path="/selProfile/:id" element={<SellerProfile />} />
 
             {/* Login готова */}
             <Route path="/login" element={<Login />} />

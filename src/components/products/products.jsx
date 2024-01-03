@@ -1,21 +1,25 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 // import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import * as S from './products.styled'
 import noPhoto from '../img/no-photo.avif'
-import GetAllAds from '../../api/api'
+import GetAllAds, { GetUserAd } from '../../api/api'
 import {
     advsAllSelector,
     searchSelector,
 } from '../../store/selectors/selectors'
 import { advsAllUpdate, userSelProdUpdate } from '../../store/reducers/reducers'
-import { formatTitle } from '../../helpers/helpers'
+import {
+    // formatSymbols,
+    formatUrl,
+} from '../../helpers/helpers'
 
-function Products() {
+function Products({ id }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
+    const location = useLocation().pathname
+    // console.log({ id })
     const allAd = useSelector(advsAllSelector)
     // const allAd = useSelector((store) => store.store.advsAll)
 
@@ -23,9 +27,13 @@ function Products() {
 
     const fromApi = async () => {
         try {
-            // let allAds = []
-            const allAds = await GetAllAds()
-            dispatch(advsAllUpdate(allAds))
+            if (location === '/') {
+                const allAds = await GetAllAds()
+                dispatch(advsAllUpdate(allAds))
+            } else {
+                const sellerAds = await GetUserAd({ id })
+                dispatch(advsAllUpdate(sellerAds))
+            }
         } catch (error) {
             console.log(error.message)
         }
@@ -50,7 +58,7 @@ function Products() {
         localStorage.setItem('UserSelectedAd', JSON.stringify(ad))
         // Делаем адрес (выбранного юзером объвл-ия) в браузере похожим на авито. Сначала заголовок, затем id объявления
         // ф-ия formatTitle из helpers заменяет пробел на прочерк в браузере
-        navigate(`/adv/${formatTitle(ad.title)}_${ad.id}`)
+        navigate(`/adv/${formatUrl(ad.title)}_${ad.id}`)
     }
     useEffect(() => {
         fromApi()
