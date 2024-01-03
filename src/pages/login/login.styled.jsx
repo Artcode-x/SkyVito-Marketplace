@@ -26,7 +26,8 @@ export const ModalBlock = styled.div`
 export const ModalformLogin = styled.form`
     /* width: 366px; */
     width: 279px;
-    height: 439px;
+    /* height: 439px; */
+    height: 360px;
     background-color: #ffffff;
     border-radius: 12px;
     display: -webkit-box;
@@ -40,6 +41,7 @@ export const ModalformLogin = styled.form`
     -ms-flex-align: center;
     align-items: center;
     padding: 43px 47px 47px 40px;
+    justify-content: center;
 `
 
 export const ModalLogo = styled.div`
@@ -112,6 +114,7 @@ export const ModalBtnEnterLink = styled(Link)`
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+    text-decoration: none;
 `
 
 export const ModalBtnSignup = styled.button`
@@ -157,5 +160,15 @@ export const ModalBtnSignupLink = styled(Link)`
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+    text-decoration: none;
     cursor: pointer;
+`
+
+export const ForErrors = styled.span`
+    position: absolute;
+    top: 520px;
+    color: red;
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bold;
 `

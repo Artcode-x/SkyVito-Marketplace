@@ -93,6 +93,7 @@ export const ModalBtnRegLink = styled(Link)`
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+    text-decoration: none;
 `
 
 export const ModalBlockText = styled.p`
@@ -100,4 +101,13 @@ export const ModalBlockText = styled.p`
     font-size: 16px;
     line-height: 32px;
     color: #000000;
+`
+
+export const ForErrors = styled.span`
+    position: absolute;
+    top: 520px;
+    color: red;
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bold;
 `

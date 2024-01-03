@@ -7,6 +7,7 @@ const initialState = {
     advsAll: [],
     userSelectProduct: {},
     ads: [],
+    token: {},
 }
 
 const reducers = createSlice({
@@ -31,6 +32,9 @@ const reducers = createSlice({
         adsUpdate: (state, action) => {
             state.adsUpdateArray = action.payload
         },
+        tokenUpdate: (state, action) => {
+            state.token = action.payload
+        },
     },
 })
 export const {
@@ -40,5 +44,6 @@ export const {
     searchUpdate,
     userSelProdUpdate,
     adsUpdate,
+    tokenUpdate,
 } = reducers.actions
 export default reducers

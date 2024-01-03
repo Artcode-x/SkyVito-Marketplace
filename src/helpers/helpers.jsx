@@ -1,6 +1,6 @@
 // Input - Валидация
 
-export function safeTextInput(event) {
+export function validateInputText(event) {
     return event.target.value.replace(/[^a-zA-Zа-яА-Я]/g, '')
 }
 
@@ -84,6 +84,10 @@ export function formatTitle(string) {
     return ''
 }
 
+export function formatMail(mail) {
+    return mail.slice(0, mail.indexOf('@'))
+}
+
 // Эта ф-ия заменит символ / в адресной строке, чтобы отобразилось объявление со смартфоном. До этого этот символ ломал адрес
 export function formatSymbols(string) {
     if (string) {
@@ -146,6 +150,10 @@ export function formatUrl(url) {
     return result
 }
 
+export function formatEmail(email) {
+    return email.slice(0, email.indexOf('@'))
+}
+
 // Search
 
 export function searchItem(title, search) {
@@ -156,5 +164,6 @@ export function searchItem(title, search) {
 
 export function pressEnterKey(event, callback, disabled) {
     if (disabled) return
+    // keyode === 13 это enter
     if (event.keyCode === 13) callback()
 }

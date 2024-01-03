@@ -10,3 +10,5 @@ export const searchSelector = (store) => mainSelector(store).search
 
 export const userSelProdSelector = (store) =>
     mainSelector(store).userSelectProduct
+
+export const tokenSelector = (store) => mainSelector(store).token
