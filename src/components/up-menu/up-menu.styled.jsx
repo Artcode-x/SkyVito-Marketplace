@@ -43,3 +43,15 @@ export const MenuBtnS = styled.button`
     color: #ffffff;
     cursor: pointer;
 `
+export const ExitBtn = styled.button`
+    margin-left: 10px;
+    width: 158px;
+    height: 50px;
+    background-color: #009ee4;
+    border: 1px solid #009ee4;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 24px;
+    color: #ffffff;
+    cursor: pointer;
+`

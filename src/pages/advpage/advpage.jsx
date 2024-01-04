@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
@@ -7,11 +7,9 @@ import UpMenu from '../../components/up-menu/up-menu'
 import * as S from './advpage.styled'
 import noPhoto from '../../components/img/no-photo.avif'
 import { userSelProdSelector } from '../../store/selectors/selectors'
-import { userStateUpdate2 } from '../../store/reducers/reducers'
 import { formatDate, formatSellsDate } from '../../helpers/helpers'
 
 function AdvPage() {
-    const dispatch = useDispatch()
     const navigate = useNavigate()
     // обращаемся к данным с редакса, для пол-ия объявления что выбрал user, и используем как ключ
     const UserSelectProd = useSelector(userSelProdSelector)
@@ -24,7 +22,6 @@ function AdvPage() {
     }
 
     const clickToSellerProfile = () => {
-        dispatch(userStateUpdate2(UserSelectProd.user))
         navigate(`/selProfile/${UserSelectProd.user.id}`)
     }
     return (
@@ -78,10 +75,9 @@ function AdvPage() {
                                     {UserSelectProd.price}
                                 </S.ArticlePrice>
                                 <S.ArticleBtn onClick={showUserPhone}>
-                                    Показать телефон
                                     <S.ArticleBtnSpan>
                                         {userPhoneBtn
-                                            ? `+7 XXX XXX XX XX`
+                                            ? 'Показать телефон'
                                             : UserSelectProd.user?.phone}
                                     </S.ArticleBtnSpan>
                                 </S.ArticleBtn>

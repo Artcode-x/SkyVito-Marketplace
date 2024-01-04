@@ -2,7 +2,7 @@
 // import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import * as S from './profile.styled'
 // import Header from '../../components/header/header'
 import CustomHeader from '../../components/custom-header/custom-header'
@@ -10,7 +10,7 @@ import UpMenu from '../../components/up-menu/up-menu'
 import SettingsProfile from '../../components/settingsprofile/settingsprofile'
 import Products from '../../components/products/products'
 import {
-    userSelProdSelector,
+    //  userSelProdSelector,
     userSelector,
 } from '../../store/selectors/selectors'
 
@@ -25,7 +25,7 @@ function Profile() {
     const user = useSelector(userSelector)
     // const token = useSelector(tokenSelector)
 
-    const sel = useSelector(userSelProdSelector)
+    //  const sel = useSelector(userSelProdSelector)
 
     // const getAdsUser = async () => {
     //     try {
@@ -40,9 +40,9 @@ function Profile() {
     // вместо этого сел-ра юзер надо
     // const UserSelectProd = useSelector(userSelProdSelector)
 
-    useEffect(() => {
-        console.log(sel.user.id)
-    })
+    // useEffect(() => {
+    //     console.log(sel.user.id)
+    // })
     return (
         <S.Wrapper>
             <S.Container>
@@ -54,19 +54,14 @@ function Profile() {
                         <S.MainCenterBlock>
                             {/* тут будет верхня подменюшечка с лого и кнопкой */}
                             <UpMenu />
-                            <S.MainH2>
-                                {` Здравствуйте, ${user.name}`}
-                                {/* Тут будет!  {user.name }  */}
-                            </S.MainH2>
+                            <S.MainH2>{` Здравствуйте, ${user.name}`}</S.MainH2>
                             {/* для лучшего восприятия кода разбил логику и вынес settingsprofile в компоненты */}
                             <SettingsProfile />
                             <S.MainTitle>Мои товары</S.MainTitle>
                         </S.MainCenterBlock>
                         <S.MainContent>
                             {/* Тут отдельная компонента с товарами */}
-                            <Products
-                            // id={sel.user.id}
-                            />
+                            <Products id={user.id} />
                         </S.MainContent>
                     </S.MainContainer>
                 </S.Container>

@@ -1,10 +1,14 @@
 import { useSelector } from 'react-redux'
+import { useState } from 'react'
 import * as S from './settingsprofile.styled'
 import noPhoto from '../img/myprofile.png'
 import { userSelector } from '../../store/selectors/selectors'
 
 function SettingsProfile() {
     const user = useSelector(userSelector)
+
+    const [surname, setSurname] = useState()
+    const [city, setCity] = useState()
 
     return (
         <S.MainProfile>
@@ -27,17 +31,11 @@ function SettingsProfile() {
                     <S.SettingsRight>
                         <S.SettingsForm>
                             <S.SettingsDiv>
-                                <S.SettingsFormLabel>
-                                    Имя
-                                    {/* {user.name} */}
-                                </S.SettingsFormLabel>
+                                <S.SettingsFormLabel>Имя</S.SettingsFormLabel>
                                 <S.SettingsFormInput
                                     name="name"
                                     type="text"
                                     placeholder={user.name}
-                                    // onChange={(e) =>
-                                    //     handleName(e)
-                                    // }
                                 />
                             </S.SettingsDiv>
                             <S.SettingsDiv>
@@ -46,22 +44,20 @@ function SettingsProfile() {
                                 </S.SettingsFormLabel>
                                 <S.SettingsFormInput
                                     name="surname"
+                                    value={surname}
                                     type="text"
                                     placeholder={user.surname}
-                                    // onChange={(e) =>
-                                    //     handleSurname(e)
-                                    // }
+                                    onChange={(e) => setSurname(e)}
                                 />
                             </S.SettingsDiv>
                             <S.SettingsDiv>
                                 <S.SettingsFormLabel>Город</S.SettingsFormLabel>
                                 <S.SettingsFormInput
                                     name="city"
+                                    value={city}
                                     type="text"
                                     placeholder={user.city}
-                                    // onChange={(e) =>
-                                    //     handleCity(e)
-                                    // }
+                                    onChange={(e) => setCity(e)}
                                 />
                             </S.SettingsDiv>
                             <S.SettingsDiv>
@@ -73,9 +69,6 @@ function SettingsProfile() {
                                     name="phone"
                                     type="tel"
                                     placeholder={user.phone}
-                                    // onChange={(e) =>
-                                    //     handlePhone(e)
-                                    // }
                                 />
                             </S.SettingsDiv>
                             <S.SettingsBtn

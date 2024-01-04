@@ -4,7 +4,7 @@ import { useState } from 'react'
 import * as S from './login.styled'
 import img from '../../components/img/logo_modal.png'
 import { GetUser, getToken } from '../../api/api'
-import { tokenUpdate, userStateUpdate } from '../../store/reducers/reducers'
+import { tokenUpdate, userStateUpdate2 } from '../../store/reducers/reducers'
 import {
     formatEmail,
     formatUrl,
@@ -47,7 +47,7 @@ function Login() {
             console.log(responseUser)
             // далее работаем с полученной информацией
             dispatch(tokenUpdate(responseToken))
-            dispatch(userStateUpdate(responseUser))
+            dispatch(userStateUpdate2(responseUser))
             // сохраняем в LocalStorage
             localStorage.setItem('token', JSON.stringify(responseToken))
             localStorage.setItem('user', JSON.stringify(responseUser))
@@ -55,8 +55,7 @@ function Login() {
             navigate(
                 `/profile/${formatUrl(formatEmail(responseUser.email))}_${
                     responseUser.id
-                }
-                 `
+                }`
             )
         } catch (error) {
             if (error.response.status === 401) {
