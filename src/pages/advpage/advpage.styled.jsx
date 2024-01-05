@@ -174,6 +174,17 @@ export const ArticlePrice = styled.p`
     font-weight: 700;
     margin-bottom: 20px;
 `
+
+export const specialButtonForReviews = styled.button`
+    font-size: 16px;
+    line-height: 21px;
+    color: #009ee4;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+`
+
 export const ArticleBtn = styled.button`
     background-color: #009ee4;
     border-radius: 6px;
@@ -252,4 +263,28 @@ export const MainText = styled.p`
     font-size: 16px;
     line-height: 24px;
     color: #000000;
+`
+
+export const Cover = styled.div`
+    width: 60vh;
+    height: auto;
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    right: 25%;
+    z-index: 10;
+    background-color: #908d8d;
+    opacity: 0.9;
+`
+
+export const blur = styled.div`
+    background-color: #d0cecd;
+    width: 100vw;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 10;
+    opacity: 0.7;
 `

@@ -6,6 +6,7 @@ import SellerProfile from './pages/profile/seller-profile'
 import Login from './pages/login/login'
 import Registration from './pages/lRegistration/registration'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
+// import Reviews from './components/reviews/reviews'
 
 function AppRoutes() {
     return (
@@ -31,6 +32,8 @@ function AppRoutes() {
 
             <Route path="/registration" element={<Registration />} />
 
+            {/* для теста */}
+            {/* <Route path="/reviews" element={<Reviews />} /> */}
             {/* 
 
             

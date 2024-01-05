@@ -1,7 +1,7 @@
 // менюшечка с картинкой и кнопкой
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import * as S from './up-menu.styled'
 import img from '../img/logo.png'
 import { tokenUpdate, userStateUpdate } from '../../store/reducers/reducers'
@@ -23,10 +23,10 @@ function UpMenu() {
         navigate('/')
     }
 
-    useEffect(() => {
-        console.log(params.id)
-        console.log(location)
-    })
+    // useEffect(() => {
+    //     console.log(params.id)
+    //     console.log(location)
+    // })
     return (
         // <S.Container>
         <S.MainMenu>

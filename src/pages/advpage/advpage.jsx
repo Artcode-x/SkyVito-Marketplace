@@ -1,16 +1,19 @@
 import { useSelector } from 'react-redux'
-
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import CustomHeader from '../../components/custom-header/custom-header'
 import UpMenu from '../../components/up-menu/up-menu'
 import * as S from './advpage.styled'
 import noPhoto from '../../components/img/no-photo.avif'
 import { userSelProdSelector } from '../../store/selectors/selectors'
 import { formatDate, formatSellsDate } from '../../helpers/helpers'
+import { getCommentsAdv } from '../../api/api'
+import Reviews from '../../components/reviews/reviews'
 
 function AdvPage() {
     const navigate = useNavigate()
+    const [reviewsComments, setReviewsComments] = useState(false)
+    const [showReviews, setShowReviews] = useState(false)
     // обращаемся к данным с редакса, для пол-ия объявления что выбрал user, и используем как ключ
     const UserSelectProd = useSelector(userSelProdSelector)
 
@@ -24,6 +27,20 @@ function AdvPage() {
     const clickToSellerProfile = () => {
         navigate(`/selProfile/${UserSelectProd.user.id}`)
     }
+
+    // получаем комменты
+    const getComments = async () => {
+        const response = await getCommentsAdv({ id: UserSelectProd.id })
+        setReviewsComments(response)
+        // приходит массив с объектами из комментариев
+        console.log(response)
+    }
+
+    useEffect(() => {
+        getComments()
+        // console.log(showReviews)
+    }, [])
+
     return (
         <>
             {/* <Header /> */}
@@ -32,6 +49,18 @@ function AdvPage() {
                 {/* <S.MainMenu> */}
                 <UpMenu />
                 {/* </S.MainMenu> */}
+                {showReviews && <S.blur />}
+                {showReviews && (
+                    <S.Cover>
+                        <Reviews
+                            getComments={getComments}
+                            reviewsComments={reviewsComments}
+                            setShowReviews={setShowReviews}
+                        />
+                    </S.Cover>
+                )}
+                {/* {reviewsCheck && <Reviews getComments={getComments}, reviewsComments={reviewsComments} />} */}
+
                 <S.MainArtic>
                     <S.ArticContent>
                         <S.ArticleLeft>
@@ -71,6 +100,17 @@ function AdvPage() {
                                         {UserSelectProd.user?.city}
                                     </S.ArticleCity>
                                 </S.ArticleInfo>
+                                <S.specialButtonForReviews
+                                    type="button"
+                                    onClick={() => setShowReviews(true)}
+                                >
+                                    {/* {reviewsComments?.length} */}
+                                    {reviewsComments
+                                        ? reviewsComments.length
+                                        : '...'}{' '}
+                                    отзывов
+                                    {/* 12 отзыва */}
+                                </S.specialButtonForReviews>
                                 <S.ArticlePrice>
                                     {UserSelectProd.price}
                                 </S.ArticlePrice>
@@ -100,11 +140,7 @@ function AdvPage() {
 
                                     <S.AuthorCont
                                         key={UserSelectProd.user?.id}
-                                        onClick={
-                                            () => clickToSellerProfile()
-                                            // navigate(
-                                            //     `/profile/${UserSelectProd.user.id}`)
-                                        }
+                                        onClick={() => clickToSellerProfile()}
                                     >
                                         <S.AuthorName>
                                             {UserSelectProd.user?.name}

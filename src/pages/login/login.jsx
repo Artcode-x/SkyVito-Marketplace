@@ -51,6 +51,7 @@ function Login() {
             // сохраняем в LocalStorage
             localStorage.setItem('token', JSON.stringify(responseToken))
             localStorage.setItem('user', JSON.stringify(responseUser))
+
             // перенаправляем на стр профиля / создаем уник адрес
             navigate(
                 `/profile/${formatUrl(formatEmail(responseUser.email))}_${
