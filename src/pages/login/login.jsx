@@ -59,9 +59,10 @@ function Login() {
                 }`
             )
         } catch (error) {
-            if (error.response.status === 401) {
-                setShowError('Введены неверный логин или пароль')
-            }
+            console.log(error.message)
+            // if (error.response.status === 401) {
+            //     setShowError('Введены неверный логин или пароль')
+            // }
         } finally {
             setDisabled(false)
         }

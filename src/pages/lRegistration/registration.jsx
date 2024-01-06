@@ -26,10 +26,20 @@ function Registration() {
     const [disabled, setDisabled] = useState(false)
     const [showError, setShowError] = useState(null)
 
+    const checkInputs = () => {
+        if (!email) throw new Error('Не введен логин!')
+        if (email.length < 3)
+            throw new Error('email не должен быть короче 3 символов!')
+        if (!password) throw new Error('Не введен пароль!')
+        if (password.length < 5) throw new Error('Слишком короткий пароль!')
+        if (!repeatPass) throw new Error('Вы не подтвердили пароль!')
+        if (password !== repeatPass) throw new Error('Пароли не совпадают!')
+    }
+
     const ClickRegisteration = async () => {
         try {
             setDisabled(true)
-
+            checkInputs()
             const ResonseRegistration = await addRegistrUser({
                 email,
                 password,
@@ -47,7 +57,9 @@ function Registration() {
             )
         } catch (error) {
             console.log(error)
-            if (error.response.status === 422) {
+            if (error.message) {
+                setShowError(error.message)
+            } else if (error.response.status === 422) {
                 setShowError('Введены недопустимые символы!')
             } else if (error.response.status === 400) {
                 setShowError('Юзер с таким логином уже существует!')
