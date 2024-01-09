@@ -14,6 +14,9 @@ export const MainMenu = styled.div`
     padding: 11px 0;
     /* padding: 31px 10px 64px; */
     padding: 31px 10px 64px;
+    @media screen and (max-width: 590px) {
+        padding: 31px 10px 34px;
+    }
 `
 
 export const MenuLogoLink = styled.div`
@@ -24,12 +27,20 @@ export const MenuLogoLink = styled.div`
 export const MenuLogoImg = styled.img`
     width: 54px;
     height: auto;
+    @media screen and (max-width: 590px) {
+        display: none;
+        /* width: 34px;
+        height: 30px; */
+    }
 `
 
 export const MenuForm = styled.form`
     margin-left: 60px;
     max-width: 1044px;
     width: 100%;
+    @media screen and (max-width: 620px) {
+        display: flex;
+    }
 `
 
 export const MenuBtnS = styled.button`
@@ -42,6 +53,13 @@ export const MenuBtnS = styled.button`
     line-height: 1;
     color: #ffffff;
     cursor: pointer;
+    &:hover {
+        background-color: #0080c1;
+    }
+    @media screen and (max-width: 620px) {
+        width: 170px;
+        font-size: small;
+    }
 `
 export const ExitBtn = styled.button`
     margin-left: 10px;
@@ -54,4 +72,11 @@ export const ExitBtn = styled.button`
     line-height: 24px;
     color: #ffffff;
     cursor: pointer;
+    &:hover {
+        background-color: #0080c1;
+    }
+    @media screen and (max-width: 620px) {
+        width: 75px;
+        font-size: small;
+    }
 `

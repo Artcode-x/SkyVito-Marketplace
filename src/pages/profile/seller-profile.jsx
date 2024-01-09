@@ -6,6 +6,7 @@ import UpMenu from '../../components/up-menu/up-menu'
 import noPhoto from '../../components/img/no-photo.avif'
 import { userSelProdSelector } from '../../store/selectors/selectors'
 import Products from '../../components/products/products'
+import Footer from '../../components/footer/footer'
 
 function SellerProfile() {
     // обращаемся к данным с редакса, для получения объявления что выбрал user, и используем как ключ
@@ -24,7 +25,7 @@ function SellerProfile() {
     // })
 
     return (
-        <>
+        <S.Parent>
             <CustomHeader />
             <S.MainContainer>
                 {/* <S.MainMenu> */}
@@ -32,7 +33,6 @@ function SellerProfile() {
                 {/* </S.MainMenu> */}
                 <S.MainContainer>
                     <S.MainCenterBlock>
-                        ..
                         <S.MainH2>Профиль продавца</S.MainH2>
                         <S.MainProfileSell>
                             <S.ProfileSellContent>
@@ -71,10 +71,17 @@ function SellerProfile() {
 
                                         <S.SellerImgMobBlock>
                                             <S.SellerImgMob>
-                                                <S.SellerImgMobImg
-                                                    src="#"
-                                                    alt=""
-                                                />
+                                                {UserSelectProd.user?.avatar ? (
+                                                    <S.SellerImgMobImg
+                                                        src={`http://localhost:8090/${UserSelectProd.user.avatar}`}
+                                                        alt="avaUsera"
+                                                    />
+                                                ) : (
+                                                    <S.SellerImgMobImg
+                                                        src={noPhoto}
+                                                        alt="noAva"
+                                                    />
+                                                )}
                                             </S.SellerImgMob>
                                         </S.SellerImgMobBlock>
 
@@ -96,7 +103,8 @@ function SellerProfile() {
                     </S.MainContent>
                 </S.MainContainer>
             </S.MainContainer>
-        </>
+            <Footer />
+        </S.Parent>
     )
 }
 

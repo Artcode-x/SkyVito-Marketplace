@@ -1,9 +1,13 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 // import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import * as S from '../header/header.styled'
 import { userSelector } from '../../store/selectors/selectors'
 import { formatEmail, formatUrl } from '../../helpers/helpers'
+// import img from '../img/logo-mob.png'
+
+import imgMobile from '../img/logo-mob.png'
+import * as Mob from './custom-header.styled'
 
 function CustomHeader() {
     const location = useLocation().pathname
@@ -28,6 +32,23 @@ function CustomHeader() {
     return (
         <S.Header>
             <S.HeaderNav>
+                <S.HeaderLogo>
+                    {/* mob */}
+                    {/* <S.LogoMobLink>
+                        <Link to="/">
+                            <S.LogoMobImg src={img} alt="logo" />
+                        </Link>
+                    </S.LogoMobLink> */}
+                    {/* dsd */}
+                    <Mob.Header>
+                        <Mob.LogoMobLink>
+                            <Link to="/">
+                                <Mob.LogoMobImg src={imgMobile} alt="logo" />
+                            </Link>
+                        </Mob.LogoMobLink>
+                    </Mob.Header>
+                    {/* sda */}
+                </S.HeaderLogo>
                 {location === '/' && (
                     <S.HeaderBtnMainEnter
                         onClick={clickToProfile}

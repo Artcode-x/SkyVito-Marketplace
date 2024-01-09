@@ -13,6 +13,7 @@ import {
     //  userSelProdSelector,
     userSelector,
 } from '../../store/selectors/selectors'
+import Footer from '../../components/footer/footer'
 
 // import {} from  userSelProdSelector,
 // userSelector,
@@ -64,6 +65,7 @@ function Profile() {
                             <Products id={user.id} />
                         </S.MainContent>
                     </S.MainContainer>
+                    <Footer />
                 </S.Container>
             </S.Container>
         </S.Wrapper>

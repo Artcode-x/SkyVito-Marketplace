@@ -1,5 +1,9 @@
 import styled from 'styled-components'
 
+export const Parent = styled.div`
+    background-color: white;
+`
+
 // export const MainMenu = styled.div`
 //     width: 100%;
 //     display: -webkit-box;
@@ -187,6 +191,9 @@ export const ArticleBtn = styled.button`
     line-height: 22px;
     color: #ffffff;
     font-family: 'Roboto', sans-serif;
+    &:hover {
+        background-color: #0080c1;
+    }
     @media screen and (max-width: 768px) {
         width: 100%;
         height: 57px;
@@ -299,7 +306,8 @@ export const MainContainer = styled.div`
     margin: 0 auto;
     padding: 0px 10px 79px;
     @media screen and (max-width: 768px) {
-        padding: 85px 0px 84px;
+        // padding: 85px 0px 84px;
+        padding: 5px 10px 5px;
     }
 `
 export const MainH2 = styled.h2`
@@ -480,10 +488,11 @@ export const SellerImgMob = styled.div`
 export const SellerImgMobImg = styled.img`
     @media screen and (max-width: 580px) {
         width: 100%;
-        height: auto;
+        height: 100%;
         display: block;
         -o-object-fit: cover;
         object-fit: cover;
+        border-radius: 50%;
     }
 `
 

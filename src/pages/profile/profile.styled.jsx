@@ -28,11 +28,22 @@ export const MainContainer = styled.div`
     max-width: 1178px;
     margin: 0 auto;
     padding: 0px 10px 79px;
+    @media screen and (max-width: 768px) {
+        padding: 0 20px 0;
+    }
 `
 
 export const MainCenterBlock = styled.div`
     margin: 0 auto;
     padding: 0 20px;
+    @media screen and (max-width: 890px) {
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    @media screen and (max-width: 620px) {
+        margin: 0 auto;
+        padding: 0 20px;
+    }
 `
 
 // MainMenu (UpMenu) вынес в отдельный компонент
@@ -44,6 +55,12 @@ export const MainH2 = styled.h2`
     line-height: 42px;
     color: #000000;
     margin-bottom: 30px;
+    @media screen and (max-width: 620px) {
+        font-size: 24px;
+        line-height: 29px;
+        color: #000000;
+        margin-bottom: 20px;
+    }
 `
 // settingsprofile вынес в отдельный компонент
 
@@ -53,8 +70,17 @@ export const MainTitle = styled.h3`
     line-height: 70px;
     font-weight: 500;
     color: #000000;
+    @media screen and (max-width: 620px) {
+        margin-bottom: 30px;
+        font-size: 18px;
+        line-height: 1;
+    }
 `
 export const MainContent = styled.div`
     width: 100%;
     margin: 0 auto;
+    @media screen and (max-width: 620px) {
+        width: 100%;
+        margin: 0 auto;
+    }
 `

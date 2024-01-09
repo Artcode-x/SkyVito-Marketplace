@@ -9,6 +9,7 @@ import { userSelProdSelector } from '../../store/selectors/selectors'
 import { formatDate, formatSellsDate } from '../../helpers/helpers'
 import { getCommentsAdv } from '../../api/api'
 import Reviews from '../../components/reviews/reviews'
+import Footer from '../../components/footer/footer'
 
 function AdvPage() {
     const navigate = useNavigate()
@@ -42,7 +43,7 @@ function AdvPage() {
     }, [])
 
     return (
-        <>
+        <S.Parent>
             {/* <Header /> */}
             <CustomHeader />
             <S.MainContainer>
@@ -165,7 +166,8 @@ function AdvPage() {
                     <S.MainText>{UserSelectProd.description}</S.MainText>
                 </S.MainContent>
             </S.MainContainer>
-        </>
+            <Footer />
+        </S.Parent>
     )
 }
 

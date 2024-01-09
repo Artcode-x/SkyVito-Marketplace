@@ -5,7 +5,13 @@ import styled from 'styled-components'
 export const Header = styled.header`
     background-color: #009ee4;
     @media screen and (max-width: 590px) {
-        display: none;
+        /* display: none; */
+        display: flex;
+        box-sizing: border-box;
+        width: 100%;
+        height: 57px;
+        /* display: none; */
+        // justify-content: flex-start;
     }
 `
 
@@ -92,6 +98,9 @@ export const headerBtnLk = styled.button`
         border: 1px solid #ffffff;
         cursor: pointer;
     }
+    @media screen and (max-width: 620px) {
+        display: none;
+    }
 `
 
 export const headerBtnPutAd = styled.button`
@@ -112,5 +121,34 @@ export const headerBtnPutAd = styled.button`
         border: 1px solid #ffffff;
         cursor: pointer;
     }
+    @media screen and (max-width: 620px) {
+        display: none;
+        /* width: 200px;
+        height: 33px; */
+    }
 `
 // export headerLogo = styled.img``
+export const HeaderLogo = styled.div`
+    display: none;
+    @media screen and (max-width: 620px) {
+        display: block;
+    }
+`
+
+export const LogoMobLink = styled.div`
+    @media screen and (max-width: 620px) {
+        display: block;
+        width: 32px;
+        height: 32px;
+    }
+`
+export const LogoMobImg = styled.img`
+    // display: none;
+    @media screen and (max-width: 620px) {
+        width: 32px;
+        height: auto;
+        display: block;
+        -o-object-fit: cover;
+        object-fit: cover;
+    }
+`
