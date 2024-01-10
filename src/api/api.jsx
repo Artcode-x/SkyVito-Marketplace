@@ -106,6 +106,79 @@ export async function addComment({ id, token, text }) {
     })
     return { newComment, newToken }
 }
+// обновление данных в profile
+export const updateUser = async (user, token) => {
+    // const newToken = await refreshTokens({ token })
+    const response = await axios(`${way}/user`, {
+        method: 'PATCH',
+        headers: {
+            'content-type': 'application/json',
+            authorization: `Bearer ${token.access_token}`,
+        },
+        data: JSON.stringify({
+            role: 'user',
+            email: user.email,
+            name: user.name,
+            surname: user.surname,
+            phone: user.phone,
+            city: user.city,
+        }),
+    })
+    return response
+}
+
+// обновить токены
+export async function updateToken({ token }) {
+    const response = await fetch(`${way}/auth/login`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            access_token: token.access_token,
+            refresh_token: token.refresh_token,
+        }),
+        headers: {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${token.access_token}`,
+        },
+    })
+    return response.json()
+}
+
+// смена аватарки
+export async function editProfileAvatar({ formAvatar, token }) {
+    const newToken = await updateToken({ token })
+    const resp = await fetch(`${way}/user/avatar`, {
+        method: 'POST',
+        body: formAvatar,
+        headers: {
+            Authorization: `Bearer ${newToken.access_token}`,
+        },
+    })
+    const user = await resp.json()
+    return { user, newToken }
+}
+
+// .then((response) => {
+//     if (response.status === 200) {
+//         return response.json()
+//     }
+
+//         if (response.status === 401) {
+//             refreshTokens()
+//             return updateUser(user, getTokenFromLocalStorage())
+//         }
+//         throw new Error('Неизвестная ошибка, попробуйте позже')
+//     })
+// }
+
+// export async function editUserSettings({ name, surname, city, phone, token }) {
+//     const newToken = await refreshTokens({ token })
+//     let user
+//     if (name) user = await editNameUser({ name, token: newToken })
+//     if (surname) user = await editSurnameUser({ surname, token: newToken })
+//     if (city) user = await editCityUser({ city, token: newToken })
+//     if (phone) user = await editPhoneUser({ phone, token: newToken })
+//     return { user, newToken }
+// }
 
 // export async function getTest() {
 //     const resp = await fetch('http://localhost:8090/ads')

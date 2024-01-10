@@ -274,3 +274,13 @@ export const SettingsBtn = styled.div`
         margin: 8px 0px 0;
     }
 `
+
+export const ShowErrors = styled.span`
+    position: absolute;
+    top: 520px;
+    color: red;
+    text-align: center;
+`
+export const Label = styled.label`
+    background-color: red;
+`
