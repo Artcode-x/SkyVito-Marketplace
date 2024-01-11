@@ -70,7 +70,6 @@ export const ModalContent = styled.div`
     -ms-flex-align: start;
     align-items: flex-start;
     // width: 600px;
-
     width: auto;
     height: auto;
     padding: 32px 70px 42px;
@@ -192,6 +191,7 @@ export const ModalFormNewArt = styled.form`
     width: 100%;
     @media screen and (max-width: 600px) {
         margin-top: 22px;
+        width: 90%;
     }
 `
 
@@ -270,9 +270,8 @@ export const FormNewArtInput = styled.input`
         color: #0000004d;
     }
     @media screen and (max-width: 600px) {
-        //  padding: 9px 17px;
+        // padding: 9px 17px;
         text-align: center;
-        padding: 9px 0px;
         background: #ffffff;
         border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 30px;
@@ -349,7 +348,6 @@ export const FormNewArtArea = styled.textarea`
     @media screen and (max-width: 600px) {
         //  padding: 9px 17px;
         text-align: center;
-        padding: 9px 0px;
         background: #ffffff;
         border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 30px;
@@ -573,7 +571,6 @@ export const FormNewArtInputPrice = styled.input`
     }
     @media screen and (max-width: 600px) {
         //   padding: 9px 17px;
-        padding: 9px 0px;
         background: #ffffff;
         border: 1px solid rgba(0, 0, 0, 0.2);
         border-radius: 30px;

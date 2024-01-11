@@ -461,3 +461,63 @@ export const blur = styled.div`
     z-index: 10;
     opacity: 0.7;
 `
+
+export const StyledBlock = styled.div`
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+`
+
+export const MsgForUser = styled.div`
+    color: #009ee4;
+    font-weight: 400;
+    font-size: 38px;
+    line-height: 24px;
+    margin-top: 20px;
+    text-align: center;
+    padding-bottom: 40px;
+`
+export const ArticleBtnSpan2 = styled.span`
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    @media screen and (max-width: 768px) {
+        font-size: 12px;
+    }
+`
+
+export const ArticleBtn2 = styled.button`
+    background-color: #009ee4;
+    border-radius: 6px;
+    border: 1px solid #009ee4;
+    width: 214px;
+    height: 62px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    &:hover {
+        background-color: #0080c1;
+    }
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        height: 57px;
+        font-size: 14px;
+        line-height: 20px;
+        color: #ffffff;
+    }
+`
+
+export const Xcover = styled.div`
+    width: 60vh;
+    height: auto;
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    right: 25%;
+    z-index: 10;
+    background-color: #908d8d;
+    opacity: 0.9;
+`

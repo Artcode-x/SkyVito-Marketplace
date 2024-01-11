@@ -95,4 +95,7 @@ export const Cover = styled.div`
     z-index: 10;
     background-color: #908d8d;
     opacity: 0.9;
+    @media screen and (max-width: 590px) {
+        opacity: 1;
+    }
 `

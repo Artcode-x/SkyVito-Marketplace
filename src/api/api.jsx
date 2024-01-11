@@ -128,10 +128,25 @@ export const updateUser = async (user, token) => {
 }
 
 // обновить токены
+// export async function updateToken({ token }) {
+//     const response = await fetch(`${way}/auth/login`, {
+//         method: 'PUT',
+//         body: JSON.stringify({
+//             access_token: token.access_token,
+//             refresh_token: token.refresh_token,
+//         }),
+//         headers: {
+//             'content-type': 'application/json',
+//             Authorization: `Bearer ${token.access_token}`,
+//         },
+//     })
+//     return response.json()
+// }
+
 export async function updateToken({ token }) {
-    const response = await fetch(`${way}/auth/login`, {
+    const response = await axios(`${way}/auth/login`, {
         method: 'PUT',
-        body: JSON.stringify({
+        data: JSON.stringify({
             access_token: token.access_token,
             refresh_token: token.refresh_token,
         }),
@@ -140,7 +155,8 @@ export async function updateToken({ token }) {
             Authorization: `Bearer ${token.access_token}`,
         },
     })
-    return response.json()
+    console.log(response.data)
+    return response.data
 }
 
 // смена аватарки
@@ -191,36 +207,45 @@ export async function getAdvByid(id) {
     const response = await axios.get(`${way}/ads/${id}`)
     return response.data
 }
-// .then((response) => {
-//     if (response.status === 200) {
-//         return response.json()
-//     }
 
-//         if (response.status === 401) {
-//             refreshTokens()
-//             return updateUser(user, getTokenFromLocalStorage())
-//         }
-//         throw new Error('Неизвестная ошибка, попробуйте позже')
-//     })
-// }
+export async function delAdv({ id, token }) {
+    console.log(id)
+    console.log(token)
 
-// export async function editUserSettings({ name, surname, city, phone, token }) {
-//     const newToken = await refreshTokens({ token })
-//     let user
-//     if (name) user = await editNameUser({ name, token: newToken })
-//     if (surname) user = await editSurnameUser({ surname, token: newToken })
-//     if (city) user = await editCityUser({ city, token: newToken })
-//     if (phone) user = await editPhoneUser({ phone, token: newToken })
-//     return { user, newToken }
-// }
+    const newToken = await updateToken({ token })
+    const response = await axios(`${way}/ads/${id}`, {
+        method: 'DELETE',
 
-// export async function getTest() {
-//     const resp = await fetch('http://localhost:8090/ads')
-//     return resp.json()
-// }
+        headers: {
+            authorization: `Bearer ${newToken.access_token}`,
+        },
+    })
+    return { response, newToken }
+}
+
+export async function editionAdv({
+    title,
+    description,
+    price,
+    images,
+    id,
+    token,
+}) {
+    const newToken = await updateToken({ token })
+    const response = await axios(`${way}/ads/${id}`, {
+        method: 'PATCH',
+        data: JSON.stringify({
+            title,
+            description,
+            price,
+            images,
+        }),
+        headers: {
+            'content-type': 'application/json',
+            authorization: `Bearer ${newToken.access_token}`,
+        },
+    })
+    return { response, newToken }
+}
 
 export default GetAllAds
-
-//  function GetAllAds() {
-//     return axios.get(`http://localhost:8090/ads`).then((resp) => resp.data)
-// }

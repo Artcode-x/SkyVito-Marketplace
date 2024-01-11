@@ -3,7 +3,10 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import * as S from './registration.styled'
 import img from '../../components/img/logo_modal.png'
-import { userStateUpdate } from '../../store/reducers/reducers'
+import {
+    //  userStateUpdate,
+    userStateUpdate2,
+} from '../../store/reducers/reducers'
 import {
     formatMail,
     formatUrl,
@@ -48,7 +51,7 @@ function Registration() {
                 city,
             })
             console.log(ResonseRegistration)
-            dispatch(userStateUpdate(ResonseRegistration))
+            dispatch(userStateUpdate2(ResonseRegistration))
             localStorage.setItem('user', JSON.stringify(ResonseRegistration))
             navigate(
                 `/profile/${formatUrl(formatMail(ResonseRegistration.email))}_${

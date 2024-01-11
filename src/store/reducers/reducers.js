@@ -3,12 +3,14 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     user: {},
+    userFlag: {},
     search: '',
     advsAll: [],
     userSelectProduct: {},
     ads: [],
     token: {},
     showNewAd: false,
+    editAdWindow: false,
 }
 
 const reducers = createSlice({
@@ -16,7 +18,7 @@ const reducers = createSlice({
     initialState,
     reducers: {
         userStateUpdate: (state) => {
-            state.user = true
+            state.userFlag = true
         },
         userStateUpdate2: (state, action) => {
             state.user = action.payload
@@ -39,6 +41,9 @@ const reducers = createSlice({
         addNewAdUpdate: (state, action) => {
             state.showNewAd = action.payload
         },
+        addEditAdWindow: (state, action) => {
+            state.editAdWindow = action.payload
+        },
     },
 })
 export const {
@@ -50,5 +55,6 @@ export const {
     adsUpdate,
     tokenUpdate,
     addNewAdUpdate,
+    addEditAdWindow,
 } = reducers.actions
 export default reducers

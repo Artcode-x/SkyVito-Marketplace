@@ -4,7 +4,11 @@ import { useDispatch } from 'react-redux'
 // import { useEffect } from 'react'
 import * as S from './up-menu.styled'
 import img from '../img/logo.png'
-import { tokenUpdate, userStateUpdate } from '../../store/reducers/reducers'
+import {
+    tokenUpdate,
+    userStateUpdate2,
+    //  userStateUpdate
+} from '../../store/reducers/reducers'
 
 function UpMenu() {
     const navigate = useNavigate()
@@ -14,7 +18,7 @@ function UpMenu() {
 
     const exit = () => {
         // делаем состояние пустым как изначально
-        dispatch(userStateUpdate({}))
+        dispatch(userStateUpdate2({}))
         dispatch(tokenUpdate({}))
         // удаляем с LocalStorage
         localStorage.removeItem('user')

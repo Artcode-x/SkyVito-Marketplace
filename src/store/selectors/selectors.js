@@ -15,3 +15,6 @@ export const tokenSelector = (store) => mainSelector(store).token
 
 export const showAddNewAdWindwowSelector = (store) =>
     mainSelector(store).showNewAd
+
+export const showEditAdWindowSelector = (store) =>
+    mainSelector(store).editAdWindow

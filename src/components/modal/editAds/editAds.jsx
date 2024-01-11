@@ -1,22 +1,25 @@
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import * as S from './addAds.styled'
-import { formatUrl, pressEnterKey } from '../../../helpers/helpers'
+// import { useNavigate } from 'react-router-dom'
 import {
-    addNewAdUpdate,
+    addEditAdWindow,
     tokenUpdate,
     userSelProdUpdate,
 } from '../../../store/reducers/reducers'
-import { tokenSelector } from '../../../store/selectors/selectors'
-import { addImgPublish, addPublish, getAdvByid } from '../../../api/api'
+import * as S from './editAds.styled'
+import { editionAdv } from '../../../api/api'
+import {
+    tokenSelector,
+    userSelProdSelector,
+} from '../../../store/selectors/selectors'
+import { pressEnterKey } from '../../../helpers/helpers'
 
-function AddAds() {
+function EditAds() {
     const disaptch = useDispatch()
-    const navigate = useNavigate()
-    const token = useSelector(tokenSelector)
+    // const navigate = useNavigate()
+
+    const tokenFromState = useSelector(tokenSelector)
+    const userSelectAdv = useSelector(userSelProdSelector)
 
     const [title, setTitle] = useState()
     const [description, setDescription] = useState()
@@ -25,17 +28,9 @@ function AddAds() {
     const [disabled, setDisabled] = useState(false)
     const [showError, setShowError] = useState()
 
-    // const [photos, setPhotos] = useState([])
-    // const [urlPhotos, setUrlPhotos] = useState([])
-
-    // тестовые состояния
     const [image, setImage] = useState([])
-
     const [urlFoto, setUrlfoto] = useState([])
-    // записываю в стейт до 5 изображений
-    const handleImageChange = async (e) => {
-        setImage((prev) => [...prev, e.target.files[0]])
-    }
+    console.log(image)
 
     const checkInputs = () => {
         if (!title) throw new Error('Не введено название')
@@ -43,16 +38,13 @@ function AddAds() {
         if (!price) throw new Error('Не введена цена')
     }
 
-    // const formatFile = ({ newPhoto }) => {
-    //     const formData = new FormData()
-    //     const formatUrlPhoto = URL.createObjectURL(newPhoto)
-    //     formData.append('file', newPhoto)
-    //     setPhotos((prev) => prev.concat(formData))
-    //     setUrlPhotos([...urlPhotos, { formatUrlPhoto }])
-    // }
+    const closeForm = () => {
+        disaptch(addEditAdWindow(false))
+    }
 
+    // форматирование фото
     const addImgtoArray = (e) => {
-        // cjхранили фото в файл
+        // cохранили фото в файл
         const file = e.target.files[0]
         const fotoAfterFormat = new FormData()
         fotoAfterFormat.append('file', file)
@@ -64,55 +56,42 @@ function AddAds() {
         console.log(ReadyUrlFoto)
     }
 
-    const postNewAd = async () => {
+    const editAdv = async () => {
         try {
             setDisabled(true)
             checkInputs()
-
-            // создаем объяв без изобр-ий
-            const newAdWithoutImg = await addPublish({
+            const response = await editionAdv({
+                // title: userSelectAdv.title,
+                // description: userSelectAdv.description,
+                // price: userSelectAdv.price,
                 title,
                 description,
                 price,
-                token,
-                //  photos,
+                // images: userSelectAdv.images,
+                token: tokenFromState,
+                id: userSelectAdv.id,
             })
-            const updateTokenFromApi = newAdWithoutImg.newToken
-            console.log(updateTokenFromApi)
-            disaptch(tokenUpdate(updateTokenFromApi))
-            localStorage.setItem('token', JSON.stringify(updateTokenFromApi))
+            console.log(response)
+            const itsUpdateToken = response.newToken
+            // console.log(itsUpdateToken)
+            disaptch(tokenUpdate(itsUpdateToken))
+            localStorage.setItem('token', JSON.stringify(itsUpdateToken))
 
-            const { id } = newAdWithoutImg.response.data
-
-            let testapi
-            const fileCount = image.length > 5 ? 5 : image.length
-            for (let i = 0; i < fileCount; i += 1) {
-                // const fotoAfterFormat = new FormData()
-                // fotoAfterFormat.append('file', image[i])
-                testapi = await addImgPublish({
-                    id,
-                    test: image[i],
-                    updateTokenFromApi,
-                })
-            }
-            const getAdvByUSer = await getAdvByid(id)
-            console.log(getAdvByUSer)
-            disaptch(userSelProdUpdate(testapi))
-            navigate(`/adv/${formatUrl(testapi.title)}_${id}`)
+            // тут вроде инфа о конкретном объявлении куда зашел юзер
+            disaptch(userSelProdUpdate(response.response.data))
+            console.log(response.response.data)
         } catch (error) {
             setShowError(error.message)
         } finally {
             setDisabled(false)
         }
     }
-
-    const closeForm = () => {
-        disaptch(addNewAdUpdate(false))
-    }
-
     useEffect(() => {
-        console.log(urlFoto[0])
-    }, [urlFoto])
+        setTitle(userSelectAdv.title)
+        setDescription(userSelectAdv.description)
+        setPrice(userSelectAdv.price)
+    }, [])
+
     return (
         <S.Parent>
             <S.Wrapper>
@@ -129,6 +108,7 @@ function AddAds() {
                                         Название
                                     </S.FormNewArtLabel>
                                     <S.FormNewArtInput
+                                        value={title}
                                         id="1"
                                         type="text"
                                         name="title"
@@ -137,11 +117,7 @@ function AddAds() {
                                             setTitle(e.target.value)
                                         }
                                         onKeyDown={(e) =>
-                                            pressEnterKey(
-                                                e,
-                                                postNewAd,
-                                                disabled
-                                            )
+                                            pressEnterKey(e, editAdv, disabled)
                                         }
                                     />
                                 </S.FormNewArtBlock>
@@ -150,18 +126,15 @@ function AddAds() {
                                         Описание
                                     </S.FormNewArtLabel>
                                     <S.FormNewArtArea
+                                        value={description}
                                         name="text"
                                         type="text"
-                                        placeholder="Введите описание"
+                                        placeholder="Введите название"
                                         onChange={(e) =>
                                             setDescription(e.target.value)
                                         }
                                         onKeyDown={(e) =>
-                                            pressEnterKey(
-                                                e,
-                                                postNewAd,
-                                                disabled
-                                            )
+                                            pressEnterKey(e, editAdv, disabled)
                                         }
                                     />
                                 </S.FormNewArtBlock>
@@ -170,6 +143,7 @@ function AddAds() {
                                         Цена
                                     </S.FormNewArtLabel>
                                     <S.FormNewArtInputPrice
+                                        value={price}
                                         id="price"
                                         name="price"
                                         type="text"
@@ -177,11 +151,7 @@ function AddAds() {
                                             setPrice(e.target.value)
                                         }
                                         onKeyDown={(e) =>
-                                            pressEnterKey(
-                                                e,
-                                                postNewAd,
-                                                disabled
-                                            )
+                                            pressEnterKey(e, editAdv, disabled)
                                         }
                                     />
                                     <S.FormNewArtInputPriceCover />
@@ -293,7 +263,7 @@ function AddAds() {
                                     </S.FormNewArtBarImg>
                                 </S.FormNewArtBlock>
                                 <S.FormNewArtBtnPub
-                                    onClick={postNewAd}
+                                    onClick={editAdv}
                                     type="button"
                                     disabled={disabled}
                                 >
@@ -312,4 +282,4 @@ function AddAds() {
     )
 }
 
-export default AddAds
+export default EditAds
