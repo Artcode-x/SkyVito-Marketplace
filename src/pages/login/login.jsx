@@ -39,12 +39,12 @@ function Login() {
                 email,
                 password,
             })
-            console.log(responseToken)
+            //  console.log(responseToken)
             const responseUser = await GetUser({
                 // Тут передаем в апи токен
                 token: responseToken.access_token,
             })
-            console.log(responseUser)
+            // console.log(responseUser)
             // далее работаем с полученной информацией
             dispatch(tokenUpdate(responseToken))
             dispatch(userStateUpdate2(responseUser))

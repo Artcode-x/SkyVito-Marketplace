@@ -167,3 +167,34 @@ export function pressEnterKey(event, callback, disabled) {
     // keyode === 13 это enter
     if (event.keyCode === 13) callback()
 }
+
+// export function editEndReviews(num) {
+//     if (num > 4 &&  num < 21 ) return num + ' отзывов'
+//     if ((num+ 20) &&  num < 21 ) return num + ' отзывов'
+
+// }
+
+export function formatReviews(numb) {
+    if (numb === undefined) return ''
+    if (numb > 10 && numb < 20) return 'отзывов'
+    const string = numb.toString().split('').pop()
+    if (string === '1') return 'отзыв'
+    if (string === '2' || string === '3' || string === '4') return 'отзыва'
+    if (
+        string === '5' ||
+        string === '6' ||
+        string === '7' ||
+        string === '8' ||
+        string === '9' ||
+        string === '0'
+    )
+        return 'отзывов'
+    return ''
+}
+
+export function editPrice(elem) {
+    if (!elem) return ''
+    let test = elem.toLocaleString('ru-RU')
+    test += ' ₽'
+    return test
+}

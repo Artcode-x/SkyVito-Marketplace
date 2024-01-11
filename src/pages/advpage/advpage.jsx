@@ -6,7 +6,7 @@ import UpMenu from '../../components/up-menu/up-menu'
 import * as S from './advpage.styled'
 import noPhoto from '../../components/img/no-photo.avif'
 import { userSelProdSelector } from '../../store/selectors/selectors'
-import { formatDate, formatSellsDate } from '../../helpers/helpers'
+import { editPrice, formatDate, formatSellsDate } from '../../helpers/helpers'
 import { getCommentsAdv } from '../../api/api'
 import Reviews from '../../components/reviews/reviews'
 import Footer from '../../components/footer/footer'
@@ -34,7 +34,7 @@ function AdvPage() {
         const response = await getCommentsAdv({ id: UserSelectProd.id })
         setReviewsComments(response)
         // приходит массив с объектами из комментариев
-        console.log(response)
+        //  console.log(response)
     }
 
     useEffect(() => {
@@ -113,7 +113,7 @@ function AdvPage() {
                                     {/* 12 отзыва */}
                                 </S.specialButtonForReviews>
                                 <S.ArticlePrice>
-                                    {UserSelectProd.price}
+                                    {editPrice(UserSelectProd.price)}
                                 </S.ArticlePrice>
                                 <S.ArticleBtn onClick={showUserPhone}>
                                     <S.ArticleBtnSpan>

@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import CustomHeader from '../../components/custom-header/custom-header'
 import * as S from './main.styled'
 import img from '../../components/img/logo.png'
 import Products from '../../components/products/products'
 import { searchUpdate } from '../../store/reducers/reducers'
 import imgMobile from '../../components/img/logo-mob.png'
+import AddAds from '../../components/modal/addAds/addAds'
+import { showAddNewAdWindwowSelector } from '../../store/selectors/selectors'
 // import Footer from '../../components/footer/footer'
 
 function Main() {
+    const showAddNewAd = useSelector(showAddNewAdWindwowSelector)
     const dispatch = useDispatch()
 
     return (
@@ -20,6 +23,11 @@ function Main() {
                 <CustomHeader />
             </S.HideMobileVer>
 
+            {showAddNewAd && (
+                <S.Cover>
+                    <AddAds />
+                </S.Cover>
+            )}
             {/* <S.HideOrNot $display="none"> */}
             {/* {windowSize < 590 && } */}
 

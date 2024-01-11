@@ -10,10 +10,11 @@ import UpMenu from '../../components/up-menu/up-menu'
 import SettingsProfile from '../../components/settingsprofile/settingsprofile'
 import Products from '../../components/products/products'
 import {
+    showAddNewAdWindwowSelector,
     //  userSelProdSelector,
     userSelector,
 } from '../../store/selectors/selectors'
-import Footer from '../../components/footer/footer'
+import AddAds from '../../components/modal/addAds/addAds'
 
 // import {} from  userSelProdSelector,
 // userSelector,
@@ -44,11 +45,19 @@ function Profile() {
     // useEffect(() => {
     //     console.log(sel.user.id)
     // })
+    const showAddNewAd = useSelector(showAddNewAdWindwowSelector)
     return (
         <S.Wrapper>
             <S.Container>
                 {/* тут отдельно заголовок */}
                 {/* <Header /> */}
+
+                {showAddNewAd && (
+                    <S.Cover>
+                        <AddAds />
+                    </S.Cover>
+                )}
+
                 <CustomHeader />
                 <S.Container>
                     <S.MainContainer>
@@ -65,7 +74,6 @@ function Profile() {
                             <Products id={user.id} />
                         </S.MainContent>
                     </S.MainContainer>
-                    <Footer />
                 </S.Container>
             </S.Container>
         </S.Wrapper>

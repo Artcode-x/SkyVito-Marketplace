@@ -71,9 +71,9 @@ function SettingsProfile() {
 
             const token = getTokenFromLocalStorage().access_token
 
-            console.log(token)
+            //   console.log(token)
             await GetUser({ token })
-            console.log(AllDataUser)
+            //   console.log(AllDataUser)
         } catch (error) {
             console.log(error)
         } finally {

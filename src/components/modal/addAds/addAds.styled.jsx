@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    /* @media screen and (max-width: 600px) {
+    @media screen and (max-width: 600px) {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -31,7 +31,7 @@ export const Wrapper = styled.div`
         min-width: 320px;
         height: auto;
         padding: 30px 20px 30px;
-    } */
+    }
 `
 
 export const ContainerBg = styled.div`
@@ -49,7 +49,8 @@ export const ModalBlock = styled.div`
     top: 60px;
     opacity: 1;
     @media screen and (max-width: 600px) {
-        position: absolute;
+        // position: absolute;
+        position: fixed;
         z-index: 5;
         left: 0px;
         top: 55px;
@@ -409,7 +410,7 @@ export const FormNewArtBarImg = styled.div`
     margin-bottom: 10px;
     overflow: hidden;
     @media screen and (max-width: 600px) {
-        width: 278px;
+        /* width: 278px;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -424,7 +425,14 @@ export const FormNewArtBarImg = styled.div`
         -ms-flex-pack: start;
         justify-content: start;
         margin: 0px -5px 10px;
+        overflow: hidden; */
+        width: 95%;
+        display: grid;
+        justify-content: start;
+        margin: 0px 0px 10px;
         overflow: hidden;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 5px;
     }
 `
 
@@ -466,7 +474,8 @@ export const FormNewArtImgCover = styled.input`
     content: 'Файл';
     position: absolute;
     width: 100%;
-    height: 100%;
+    // height: 100%;
+    height: 95%;
     top: 0;
     left: 0;
     background-color: #f0f0f0;
@@ -665,3 +674,42 @@ export const Error = styled.div`
     margin-top: 20px;
     text-align: left;
 `
+
+export const Textarea = styled.textarea`
+    max-height: 200px;
+    resize: none;
+`
+
+export const FormNewArtP2 = styled.p`
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    margin-bottom: 10px;
+    @media screen and (max-width: 600px) {
+        font-size: 14px;
+        line-height: 21px;
+        margin-bottom: 10px;
+    }
+`
+export const FormNewArtSpan = styled.span`
+    margin-left: 10px;
+    color: rgba(0, 0, 0, 0.3);
+    @media screen and (max-width: 600px) {
+        display: block;
+        margin-left: 0px;
+        color: rgba(0, 0, 0, 0.3);
+    }
+`
+export const SomeImg = styled.img`
+    width: 90px;
+    height: 90px;
+    background-size: cover;
+    /* position: relative;
+    z-index: 0; */
+`
+
+// export const ForGrid = styled.div`
+//     /* display: flex;
+//     @media screen and (max-width: 590px) {
+//     } */
+// `

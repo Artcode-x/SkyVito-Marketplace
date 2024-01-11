@@ -282,5 +282,5 @@ export const ShowErrors = styled.span`
     text-align: center;
 `
 export const Label = styled.label`
-    background-color: red;
+    cursor: pointer;
 `

@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 // import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as S from '../header/header.styled'
 import { userSelector } from '../../store/selectors/selectors'
 import { formatEmail, formatUrl } from '../../helpers/helpers'
@@ -9,7 +9,11 @@ import { formatEmail, formatUrl } from '../../helpers/helpers'
 import imgMobile from '../img/logo-mob.png'
 import * as Mob from './custom-header.styled'
 
+import { addNewAdUpdate } from '../../store/reducers/reducers'
+
 function CustomHeader() {
+    const dispatch = useDispatch()
+
     const location = useLocation().pathname
     const user = useSelector(userSelector)
     const navigate = useNavigate()
@@ -18,6 +22,11 @@ function CustomHeader() {
     // useEffect(() => {
     //     console.log(location)
     // }, [])
+
+    const onClickPutAd = () => {
+        //  navigate('/putAd')
+        dispatch(addNewAdUpdate(true))
+    }
 
     const clickToProfile = () => {
         if (!user.id) {
@@ -40,6 +49,9 @@ function CustomHeader() {
                         </Link>
                     </S.LogoMobLink> */}
                     {/* dsd */}
+
+                    {/* {showAddNewAd ? <AddAds /> : null} */}
+
                     <Mob.Header>
                         <Mob.LogoMobLink>
                             <Link to="/">
@@ -61,7 +73,7 @@ function CustomHeader() {
                 {location === `/selProfile/${params.id}` && (
                     <>
                         <S.headerBtnPutAd
-                            onClick={() => navigate('/putAd')}
+                            onClick={() => onClickPutAd()}
                             type="button"
                         >
                             Разместить обьявление
@@ -74,7 +86,7 @@ function CustomHeader() {
 
                 {location === `/profile/${params.id}` && (
                     <S.headerBtnPutAd
-                        onClick={() => navigate('/putAd')}
+                        onClick={() => onClickPutAd()}
                         type="button"
                     >
                         Разместить обьявление

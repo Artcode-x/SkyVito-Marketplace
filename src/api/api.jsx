@@ -12,7 +12,7 @@ async function GetAllAds() {
 
 // Получение постов конкретного продавца
 export async function GetUserAd({ id }) {
-    console.log(id)
+    // console.log(id)
     const response = await axios.get(`${way}/ads?user_id=${id}`)
     // возвр нужн-ю нам инфо, она в data
     return response.data
@@ -70,7 +70,7 @@ export const getTokenFromLocalStorage = () => {
 // получение комментариев/отзывов к объявлению
 export async function getCommentsAdv({ id }) {
     const response = await axios.get(`${way}/ads/${id}/comments`)
-    console.log(response.data)
+    // console.log(response.data)
     return response.data
 }
 
@@ -146,17 +146,51 @@ export async function updateToken({ token }) {
 // смена аватарки
 export async function editProfileAvatar({ formAvatar, token }) {
     const newToken = await updateToken({ token })
-    const resp = await fetch(`${way}/user/avatar`, {
+    const response = await fetch(`${way}/user/avatar`, {
         method: 'POST',
         body: formAvatar,
         headers: {
             Authorization: `Bearer ${newToken.access_token}`,
         },
     })
-    const user = await resp.json()
+    const user = await response.json()
     return { user, newToken }
 }
 
+export async function addPublish({ title, description, price, token }) {
+    const newToken = await updateToken({ token })
+    const response = await axios(`${way}/adstext`, {
+        method: 'POST',
+        data: JSON.stringify({
+            title,
+            description,
+            price,
+        }),
+        headers: {
+            'content-type': 'application/json',
+            authorization: `Bearer ${newToken.access_token}`,
+        },
+    })
+    return { response, newToken }
+}
+
+export async function addImgPublish({ id, test, updateTokenFromApi }) {
+    console.log({ id, test })
+    const response = await axios(`${way}/ads/${id}/image`, {
+        method: 'POST',
+        data: test,
+        headers: {
+            Authorization: `Bearer ${updateTokenFromApi.access_token}`,
+        },
+    })
+    console.log(response.data)
+    return response.data
+}
+
+export async function getAdvByid(id) {
+    const response = await axios.get(`${way}/ads/${id}`)
+    return response.data
+}
 // .then((response) => {
 //     if (response.status === 200) {
 //         return response.json()

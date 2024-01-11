@@ -8,6 +8,7 @@ const initialState = {
     userSelectProduct: {},
     ads: [],
     token: {},
+    showNewAd: false,
 }
 
 const reducers = createSlice({
@@ -35,6 +36,9 @@ const reducers = createSlice({
         tokenUpdate: (state, action) => {
             state.token = action.payload
         },
+        addNewAdUpdate: (state, action) => {
+            state.showNewAd = action.payload
+        },
     },
 })
 export const {
@@ -45,5 +49,6 @@ export const {
     userSelProdUpdate,
     adsUpdate,
     tokenUpdate,
+    addNewAdUpdate,
 } = reducers.actions
 export default reducers

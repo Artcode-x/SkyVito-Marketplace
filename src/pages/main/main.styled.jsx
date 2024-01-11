@@ -255,3 +255,15 @@ export const SearchTextMob = styled.input`
         }
     }
 `
+
+export const Cover = styled.div`
+    width: 60vh;
+    height: auto;
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    right: 25%;
+    z-index: 10;
+    background-color: #908d8d;
+    // opacity: 0.9;
+`

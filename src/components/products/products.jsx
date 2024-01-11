@@ -11,6 +11,7 @@ import {
 } from '../../store/selectors/selectors'
 import { advsAllUpdate, userSelProdUpdate } from '../../store/reducers/reducers'
 import {
+    editPrice,
     // formatSymbols,
     formatUrl,
 } from '../../helpers/helpers'
@@ -89,7 +90,7 @@ function Products({ id }) {
                                 {ad.title}
                                 {/* </Link> */}
                             </S.CardTitle>
-                            <S.CardPrice>{ad.price}</S.CardPrice>
+                            <S.CardPrice>{editPrice(ad.price)}</S.CardPrice>
                             <S.CardPlace>{ad.user.city}</S.CardPlace>
                             <S.CardDate>
                                 {new Date(ad.created_on).toLocaleString('ru', {

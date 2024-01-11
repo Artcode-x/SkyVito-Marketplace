@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const HideOrShow = styled.div`
+    /* -moz-context-properties.size < 600 ? display: flex : display: none */
     //  display: ${(props) => props.$display || 'flex'};
 
     //  display: ${(props) => (props.display ? 'flex' : 'none')};
