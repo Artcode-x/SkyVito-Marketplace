@@ -9,28 +9,20 @@ import Products from '../../components/products/products'
 import Footer from '../../components/footer/footer'
 
 function SellerProfile() {
-    // обращаемся к данным с редакса, для получения объявления что выбрал user, и используем как ключ
-    // тут будет записана инфа о конкретном обьявлении что выбрали
     const UserSelectProd = useSelector(userSelProdSelector)
 
     const [showSellerPhoneBtn, setShowSellerPhoneBtn] = useState(false)
 
     const showSellerPhone = () => {
-        // показать номер по нажатию
         setShowSellerPhoneBtn(true)
     }
-
-    // useEffect(() => {
-    //     console.log(UserSelectProd.user.id)
-    // })
 
     return (
         <S.Parent>
             <CustomHeader />
             <S.MainContainer>
-                {/* <S.MainMenu> */}
                 <UpMenu />
-                {/* </S.MainMenu> */}
+
                 <S.MainContainer>
                     <S.MainCenterBlock>
                         <S.MainH2>Профиль продавца</S.MainH2>

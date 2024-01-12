@@ -12,9 +12,7 @@ async function GetAllAds() {
 
 // Получение постов конкретного продавца
 export async function GetUserAd({ id }) {
-    // console.log(id)
     const response = await axios.get(`${way}/ads?user_id=${id}`)
-    // возвр нужн-ю нам инфо, она в data
     return response.data
 }
 
@@ -49,7 +47,6 @@ export async function getToken({ email, password }) {
 }
 
 // Получить текущего юзера
-// принимаем токен со стр логина
 export async function GetUser({ token }) {
     const response = await axios({
         method: 'GET',
@@ -61,7 +58,7 @@ export async function GetUser({ token }) {
     return response.data
 }
 
-// тестим получение с localStorage
+//  получение токена с localStorage
 export const getTokenFromLocalStorage = () => {
     const token = localStorage.getItem('token')
     return token ? JSON.parse(token) : null
@@ -70,7 +67,7 @@ export const getTokenFromLocalStorage = () => {
 // получение комментариев/отзывов к объявлению
 export async function getCommentsAdv({ id }) {
     const response = await axios.get(`${way}/ads/${id}/comments`)
-    // console.log(response.data)
+
     return response.data
 }
 
@@ -94,8 +91,6 @@ export async function refreshTokens({ token }) {
 // добавление комментария/отзыва
 export async function addComment({ id, token, text }) {
     const newToken = await refreshTokens({ token })
-
-    //
     const newComment = await axios(`${way}/ads/${id}/comments`, {
         method: 'POST',
         data: JSON.stringify({ text }),
@@ -128,21 +123,6 @@ export const updateUser = async (user, token) => {
 }
 
 // обновить токены
-// export async function updateToken({ token }) {
-//     const response = await fetch(`${way}/auth/login`, {
-//         method: 'PUT',
-//         body: JSON.stringify({
-//             access_token: token.access_token,
-//             refresh_token: token.refresh_token,
-//         }),
-//         headers: {
-//             'content-type': 'application/json',
-//             Authorization: `Bearer ${token.access_token}`,
-//         },
-//     })
-//     return response.json()
-// }
-
 export async function updateToken({ token }) {
     const response = await axios(`${way}/auth/login`, {
         method: 'PUT',
@@ -155,7 +135,7 @@ export async function updateToken({ token }) {
             Authorization: `Bearer ${token.access_token}`,
         },
     })
-    console.log(response.data)
+
     return response.data
 }
 
@@ -190,8 +170,8 @@ export async function addPublish({ title, description, price, token }) {
     return { response, newToken }
 }
 
+// добавление изображения в объявление
 export async function addImgPublish({ id, test, updateTokenFromApi }) {
-    console.log({ id, test })
     const response = await axios(`${way}/ads/${id}/image`, {
         method: 'POST',
         data: test,
@@ -199,19 +179,18 @@ export async function addImgPublish({ id, test, updateTokenFromApi }) {
             Authorization: `Bearer ${updateTokenFromApi.access_token}`,
         },
     })
-    console.log(response.data)
+
     return response.data
 }
 
+// объявление по id
 export async function getAdvByid(id) {
     const response = await axios.get(`${way}/ads/${id}`)
     return response.data
 }
 
+// удаление объявления
 export async function delAdv({ id, token }) {
-    console.log(id)
-    console.log(token)
-
     const newToken = await updateToken({ token })
     const response = await axios(`${way}/ads/${id}`, {
         method: 'DELETE',
@@ -223,6 +202,7 @@ export async function delAdv({ id, token }) {
     return { response, newToken }
 }
 
+// редактирование объявления
 export async function editionAdv({
     title,
     description,

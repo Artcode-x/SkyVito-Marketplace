@@ -21,21 +21,10 @@ function AddAds() {
     const [title, setTitle] = useState()
     const [description, setDescription] = useState()
     const [price, setPrice] = useState()
-
     const [disabled, setDisabled] = useState(false)
     const [showError, setShowError] = useState()
-
-    // const [photos, setPhotos] = useState([])
-    // const [urlPhotos, setUrlPhotos] = useState([])
-
-    // тестовые состояния
     const [image, setImage] = useState([])
-
     const [urlFoto, setUrlfoto] = useState([])
-    // записываю в стейт до 5 изображений
-    const handleImageChange = async (e) => {
-        setImage((prev) => [...prev, e.target.files[0]])
-    }
 
     const checkInputs = () => {
         if (!title) throw new Error('Не введено название')
@@ -43,23 +32,12 @@ function AddAds() {
         if (!price) throw new Error('Не введена цена')
     }
 
-    // const formatFile = ({ newPhoto }) => {
-    //     const formData = new FormData()
-    //     const formatUrlPhoto = URL.createObjectURL(newPhoto)
-    //     formData.append('file', newPhoto)
-    //     setPhotos((prev) => prev.concat(formData))
-    //     setUrlPhotos([...urlPhotos, { formatUrlPhoto }])
-    // }
-
     const addImgtoArray = (e) => {
-        // cjхранили фото в файл
         const file = e.target.files[0]
         const fotoAfterFormat = new FormData()
         fotoAfterFormat.append('file', file)
         setImage((prev) => prev.concat(fotoAfterFormat))
-        // создаем url для нашего фото
         const ReadyUrlFoto = URL.createObjectURL(file)
-        // записываем в стейт с сохранением предыдущего состояния
         setUrlfoto([...urlFoto, ReadyUrlFoto])
         console.log(ReadyUrlFoto)
     }
@@ -75,10 +53,8 @@ function AddAds() {
                 description,
                 price,
                 token,
-                //  photos,
             })
             const updateTokenFromApi = newAdWithoutImg.newToken
-            console.log(updateTokenFromApi)
             disaptch(tokenUpdate(updateTokenFromApi))
             localStorage.setItem('token', JSON.stringify(updateTokenFromApi))
 
@@ -87,8 +63,6 @@ function AddAds() {
             let testapi
             const fileCount = image.length > 5 ? 5 : image.length
             for (let i = 0; i < fileCount; i += 1) {
-                // const fotoAfterFormat = new FormData()
-                // fotoAfterFormat.append('file', image[i])
                 testapi = await addImgPublish({
                     id,
                     test: image[i],
@@ -96,7 +70,7 @@ function AddAds() {
                 })
             }
             const getAdvByUSer = await getAdvByid(id)
-            console.log(getAdvByUSer)
+
             disaptch(userSelProdUpdate(testapi))
             navigate(`/adv/${formatUrl(testapi.title)}_${id}`)
         } catch (error) {
@@ -110,9 +84,6 @@ function AddAds() {
         disaptch(addNewAdUpdate(false))
     }
 
-    useEffect(() => {
-        console.log(urlFoto[0])
-    }, [urlFoto])
     return (
         <S.Parent>
             <S.Wrapper>
@@ -209,7 +180,6 @@ function AddAds() {
                                                         type="file"
                                                         name="img_upload"
                                                         id="img_upload"
-                                                        //  hidden
                                                     />
                                                 )}
                                             </S.FormNewArtLabel>
@@ -228,7 +198,6 @@ function AddAds() {
                                                         type="file"
                                                         name="img_upload"
                                                         id="img_upload2"
-                                                        //  hidden
                                                     />
                                                 )}
                                             </S.FormNewArtLabel>
@@ -247,7 +216,6 @@ function AddAds() {
                                                         type="file"
                                                         name="img_upload"
                                                         id="img_upload3"
-                                                        //  hidden
                                                     />
                                                 )}
                                             </S.FormNewArtLabel>
@@ -266,7 +234,6 @@ function AddAds() {
                                                         type="file"
                                                         name="img_upload"
                                                         id="img_upload4"
-                                                        //  hidden
                                                     />
                                                 )}
                                             </S.FormNewArtLabel>
@@ -285,7 +252,6 @@ function AddAds() {
                                                         type="file"
                                                         name="img_upload"
                                                         id="img_upload5"
-                                                        //  hidden
                                                     />
                                                 )}
                                             </S.FormNewArtLabel>

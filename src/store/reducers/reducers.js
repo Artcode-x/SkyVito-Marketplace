@@ -11,6 +11,7 @@ const initialState = {
     token: {},
     showNewAd: false,
     editAdWindow: false,
+    flagforEditAd: false,
 }
 
 const reducers = createSlice({
@@ -44,6 +45,9 @@ const reducers = createSlice({
         addEditAdWindow: (state, action) => {
             state.editAdWindow = action.payload
         },
+        addFlagforEditAd: (state, action) => {
+            state.flagforEditAd = action.payload
+        },
     },
 })
 export const {
@@ -56,5 +60,6 @@ export const {
     tokenUpdate,
     addNewAdUpdate,
     addEditAdWindow,
+    addFlagforEditAd,
 } = reducers.actions
 export default reducers

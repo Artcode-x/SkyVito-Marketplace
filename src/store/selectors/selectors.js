@@ -18,3 +18,6 @@ export const showAddNewAdWindwowSelector = (store) =>
 
 export const showEditAdWindowSelector = (store) =>
     mainSelector(store).editAdWindow
+
+export const flagforEditAdSelector = (store) =>
+    mainSelector(store).flagforEditAd

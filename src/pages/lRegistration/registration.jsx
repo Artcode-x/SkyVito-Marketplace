@@ -3,10 +3,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import * as S from './registration.styled'
 import img from '../../components/img/logo_modal.png'
-import {
-    //  userStateUpdate,
-    userStateUpdate2,
-} from '../../store/reducers/reducers'
+import { userStateUpdate2 } from '../../store/reducers/reducers'
 import {
     formatMail,
     formatUrl,
@@ -18,14 +15,12 @@ import { addRegistrUser } from '../../api/api'
 function Registration() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [repeatPass, setRepeatPass] = useState('')
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [city, setCity] = useState('')
-    // other state`s
     const [disabled, setDisabled] = useState(false)
     const [showError, setShowError] = useState(null)
 
@@ -50,7 +45,7 @@ function Registration() {
                 surname,
                 city,
             })
-            console.log(ResonseRegistration)
+
             dispatch(userStateUpdate2(ResonseRegistration))
             localStorage.setItem('user', JSON.stringify(ResonseRegistration))
             navigate(
@@ -59,7 +54,6 @@ function Registration() {
                 }`
             )
         } catch (error) {
-            console.log(error)
             if (error.message) {
                 setShowError(error.message)
             } else if (error.response.status === 422) {
@@ -151,7 +145,6 @@ function Registration() {
                     {/* Блок с кнопкой */}
                     <S.ModalBtnReg>
                         <S.ModalBtnRegLink
-                            // onClick={() => handleRegister(email, password, repeatPassword, name, city, lastName)}
                             onClick={ClickRegisteration}
                             disabled={disabled}
                             type="button"
@@ -161,7 +154,7 @@ function Registration() {
                                 : 'Зарегистрироваться'}
                         </S.ModalBtnRegLink>
                     </S.ModalBtnReg>
-                    {/* если уже зарегистрирован выводить сообщение */}
+
                     <S.ModalBlockText>
                         Уже есть аккаунт, <Link to="/Login">Войдите</Link>
                     </S.ModalBlockText>

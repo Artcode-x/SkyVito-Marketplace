@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // import { useNavigate } from 'react-router-dom'
 import {
     addEditAdWindow,
+    addFlagforEditAd,
     tokenUpdate,
     userSelProdUpdate,
 } from '../../../store/reducers/reducers'
@@ -16,7 +17,6 @@ import { pressEnterKey } from '../../../helpers/helpers'
 
 function EditAds() {
     const disaptch = useDispatch()
-    // const navigate = useNavigate()
 
     const tokenFromState = useSelector(tokenSelector)
     const userSelectAdv = useSelector(userSelProdSelector)
@@ -42,18 +42,13 @@ function EditAds() {
         disaptch(addEditAdWindow(false))
     }
 
-    // форматирование фото
-    const addImgtoArray = (e) => {
-        // cохранили фото в файл
+    const formatingFoto = (e) => {
         const file = e.target.files[0]
         const fotoAfterFormat = new FormData()
         fotoAfterFormat.append('file', file)
         setImage((prev) => prev.concat(fotoAfterFormat))
-        // создаем url для нашего фото
         const ReadyUrlFoto = URL.createObjectURL(file)
-        // записываем в стейт с сохранением предыдущего состояния
         setUrlfoto([...urlFoto, ReadyUrlFoto])
-        console.log(ReadyUrlFoto)
     }
 
     const editAdv = async () => {
@@ -61,29 +56,28 @@ function EditAds() {
             setDisabled(true)
             checkInputs()
             const response = await editionAdv({
-                // title: userSelectAdv.title,
-                // description: userSelectAdv.description,
-                // price: userSelectAdv.price,
                 title,
                 description,
                 price,
-                // images: userSelectAdv.images,
+                // images: urlFoto,
                 token: tokenFromState,
                 id: userSelectAdv.id,
             })
             console.log(response)
             const itsUpdateToken = response.newToken
-            // console.log(itsUpdateToken)
             disaptch(tokenUpdate(itsUpdateToken))
             localStorage.setItem('token', JSON.stringify(itsUpdateToken))
 
-            // тут вроде инфа о конкретном объявлении куда зашел юзер
             disaptch(userSelProdUpdate(response.response.data))
-            console.log(response.response.data)
         } catch (error) {
             setShowError(error.message)
         } finally {
             setDisabled(false)
+            disaptch(addFlagforEditAd(true))
+            closeForm()
+            setTimeout(() => {
+                disaptch(addFlagforEditAd(false))
+            }, 2000)
         }
     }
     useEffect(() => {
@@ -174,7 +168,7 @@ function EditAds() {
                                                 ) : (
                                                     <S.FormNewArtImgCover
                                                         onChange={(e) =>
-                                                            addImgtoArray(e)
+                                                            formatingFoto(e)
                                                         }
                                                         type="file"
                                                         name="img_upload"
@@ -193,7 +187,7 @@ function EditAds() {
                                                 ) : (
                                                     <S.FormNewArtImgCover
                                                         onChange={(e) =>
-                                                            addImgtoArray(e)
+                                                            formatingFoto(e)
                                                         }
                                                         type="file"
                                                         name="img_upload"
@@ -212,7 +206,7 @@ function EditAds() {
                                                 ) : (
                                                     <S.FormNewArtImgCover
                                                         onChange={(e) =>
-                                                            addImgtoArray(e)
+                                                            formatingFoto(e)
                                                         }
                                                         type="file"
                                                         name="img_upload"
@@ -231,7 +225,7 @@ function EditAds() {
                                                 ) : (
                                                     <S.FormNewArtImgCover
                                                         onChange={(e) =>
-                                                            addImgtoArray(e)
+                                                            formatingFoto(e)
                                                         }
                                                         type="file"
                                                         name="img_upload"
@@ -250,7 +244,7 @@ function EditAds() {
                                                 ) : (
                                                     <S.FormNewArtImgCover
                                                         onChange={(e) =>
-                                                            addImgtoArray(e)
+                                                            formatingFoto(e)
                                                         }
                                                         type="file"
                                                         name="img_upload"

@@ -29,7 +29,6 @@ function Avito() {
     return (
         <>
             {loading && <AppRoutes />}
-            {/* отображение footer сразу на всех страницах */}
             {window.innerWidth <= 600 && loading && <Footer />}
         </>
     )
