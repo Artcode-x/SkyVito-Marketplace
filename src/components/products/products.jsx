@@ -10,19 +10,14 @@ import {
     searchSelector,
 } from '../../store/selectors/selectors'
 import { advsAllUpdate, userSelProdUpdate } from '../../store/reducers/reducers'
-import {
-    editPrice,
-    // formatSymbols,
-    formatUrl,
-} from '../../helpers/helpers'
+import { editPrice, formatUrl } from '../../helpers/helpers'
 
 function Products({ id }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const location = useLocation().pathname
-    // console.log({ id })
+
     const allAd = useSelector(advsAllSelector)
-    // const allAd = useSelector((store) => store.store.advsAll)
 
     const searchInputText = useSelector(searchSelector)
 
@@ -66,8 +61,6 @@ function Products({ id }) {
     }, [])
     return (
         <S.ContentCards>
-            {/* {isloading ? (<S.MainH2>Обьявления загружаются</S.MainH2>
-            ) : AllAds?.length > 0 ? ( */}
             {allAd.map((ad) => (
                 <S.CardsItem
                     search={searchItem(ad.title, searchInputText)}
@@ -86,9 +79,7 @@ function Products({ id }) {
                         </S.CardImage>
                         <S.CardContent>
                             <S.CardTitle onClick={() => selectProduct(ad)}>
-                                {/* <Link to={`/adv/${ad.id}`}> */}
                                 {ad.title}
-                                {/* </Link> */}
                             </S.CardTitle>
                             <S.CardPrice>{editPrice(ad.price)}</S.CardPrice>
                             <S.CardPlace>{ad.user.city}</S.CardPlace>

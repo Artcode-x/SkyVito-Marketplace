@@ -23,7 +23,8 @@ export const ContainerBg = styled.div`
     height: 100vh;
     margin: 0 auto;
     position: relative;
-    background-color: #f4f5f6;
+    // background-color: #f4f5f6;
+    background-color: white;
 `
 
 export const ModalBlock = styled.div`

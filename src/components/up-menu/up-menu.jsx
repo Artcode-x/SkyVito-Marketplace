@@ -1,14 +1,8 @@
-// менюшечка с картинкой и кнопкой
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-// import { useEffect } from 'react'
 import * as S from './up-menu.styled'
 import img from '../img/logo.png'
-import {
-    tokenUpdate,
-    userStateUpdate2,
-    //  userStateUpdate
-} from '../../store/reducers/reducers'
+import { tokenUpdate, userStateUpdate2 } from '../../store/reducers/reducers'
 
 function UpMenu() {
     const navigate = useNavigate()
@@ -17,22 +11,16 @@ function UpMenu() {
     const dispatch = useDispatch()
 
     const exit = () => {
-        // делаем состояние пустым как изначально
         dispatch(userStateUpdate2({}))
         dispatch(tokenUpdate({}))
-        // удаляем с LocalStorage
+
         localStorage.removeItem('user')
         localStorage.removeItem('token')
-        // перенаправим на главную
+
         navigate('/')
     }
 
-    // useEffect(() => {
-    //     console.log(params.id)
-    //     console.log(location)
-    // })
     return (
-        // <S.Container>
         <S.MainMenu>
             <S.MenuLogoLink onClick={() => navigate('/')}>
                 <Link to="/">
@@ -50,7 +38,6 @@ function UpMenu() {
                 )}
             </S.MenuForm>
         </S.MainMenu>
-        // </S.Container>
     )
 }
 

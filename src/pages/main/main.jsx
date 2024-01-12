@@ -8,7 +8,6 @@ import { searchUpdate } from '../../store/reducers/reducers'
 import imgMobile from '../../components/img/logo-mob.png'
 import AddAds from '../../components/modal/addAds/addAds'
 import { showAddNewAdWindwowSelector } from '../../store/selectors/selectors'
-// import Footer from '../../components/footer/footer'
 
 function Main() {
     const showAddNewAd = useSelector(showAddNewAdWindwowSelector)
@@ -16,9 +15,6 @@ function Main() {
 
     return (
         <S.Parent>
-            {/* Был конфликт с заголовком */}
-            {/* {window.innerWidth <= 600 ? null : <CustomHeader />} */}
-
             <S.HideMobileVer>
                 <CustomHeader />
             </S.HideMobileVer>
@@ -28,10 +24,7 @@ function Main() {
                     <AddAds />
                 </S.Cover>
             )}
-            {/* <S.HideOrNot $display="none"> */}
-            {/* {windowSize < 590 && } */}
 
-            {/* </S.HideOrNot> */}
             <S.MainSearch>
                 {/* desktop */}
                 <S.SearchLogoLink href="#" target="blank">
@@ -46,7 +39,7 @@ function Main() {
                     </Link>
                 </S.SearchLogoMobLink>
                 <S.SearchForm action="#">
-                    {/* А тут поиск */}
+                    {/* поиск */}
                     <S.SearchText
                         type="search"
                         name="search"
@@ -65,11 +58,7 @@ function Main() {
                 <S.MainH2>Обьявления</S.MainH2>
                 <Products />
             </S.MainContainer>
-            {/* <Footer /> */}
         </S.Parent>
-        // <button type="button" onClick={click}>
-        //     KNOPKA
-        // </button>
     )
 }
 

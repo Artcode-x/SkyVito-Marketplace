@@ -11,15 +11,12 @@ import {
     pressEnterKey,
     validateInputText,
 } from '../../helpers/helpers'
-// import { formatUrl } from '../../helpers/helpers'
 
 function Login() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    // others state`
     const [disabled, setDisabled] = useState(false)
     const [showError, setShowError] = useState(null)
 
@@ -39,20 +36,17 @@ function Login() {
                 email,
                 password,
             })
-            //  console.log(responseToken)
+
             const responseUser = await GetUser({
-                // Тут передаем в апи токен
                 token: responseToken.access_token,
             })
-            // console.log(responseUser)
-            // далее работаем с полученной информацией
+
             dispatch(tokenUpdate(responseToken))
             dispatch(userStateUpdate2(responseUser))
-            // сохраняем в LocalStorage
+
             localStorage.setItem('token', JSON.stringify(responseToken))
             localStorage.setItem('user', JSON.stringify(responseUser))
 
-            // перенаправляем на стр профиля / создаем уник адрес
             navigate(
                 `/profile/${formatUrl(formatEmail(responseUser.email))}_${
                     responseUser.id
@@ -60,16 +54,12 @@ function Login() {
             )
         } catch (error) {
             console.log(error.message)
-            // if (error.response.status === 401) {
-            //     setShowError('Введены неверный логин или пароль')
-            // }
         } finally {
             setDisabled(false)
         }
     }
 
     return (
-        // <S.Wrapper>
         <S.ContainerEnter>
             <S.ModalBlock>
                 <S.ModalformLogin>
@@ -113,7 +103,6 @@ function Login() {
                 </S.ModalformLogin>
             </S.ModalBlock>
         </S.ContainerEnter>
-        // </S.Wrapper>
     )
 }
 

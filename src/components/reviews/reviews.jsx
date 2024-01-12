@@ -5,14 +5,11 @@ import * as S from './reviews.styled'
 import {
     tokenSelector,
     userSelProdSelector,
-    // userSelProdSelector,
     userSelector,
 } from '../../store/selectors/selectors'
 import noPhoto from '../img/no-photo.avif'
 import { addComment } from '../../api/api'
 import { tokenUpdate } from '../../store/reducers/reducers'
-// import { getCommentsAdv } from '../../api/api'
-// import { tokenUpdate } from '../../store/reducers/reducers'
 
 function Reviews({ setShowReviews, getComments, reviewsComments }) {
     const dispatch = useDispatch()
@@ -20,7 +17,6 @@ function Reviews({ setShowReviews, getComments, reviewsComments }) {
 
     const token = useSelector(tokenSelector)
 
-    // тут лежит конкретное объяв выбранное юзером, нам нужно для получения id
     const UserSelectProduct = useSelector(userSelProdSelector)
 
     const [newComment, setNewComment] = useState()
@@ -28,13 +24,6 @@ function Reviews({ setShowReviews, getComments, reviewsComments }) {
     const [error, setError] = useState(false)
 
     const [disabled, setDisabled] = useState(false)
-
-    // этот стейт для кнопки закрыть отзывы
-    // const [closeForm, setCloseForm] = useState(false)
-
-    // const clickCloseForm = () => {
-    //     setCloseForm(true)
-    // }
 
     const clickAddComment = async () => {
         const checkInput = () => {
@@ -44,10 +33,6 @@ function Reviews({ setShowReviews, getComments, reviewsComments }) {
 
         try {
             setDisabled(true)
-            // 1 вар проверки - в useState
-            // if (!newComment) {
-            //     setError('Пожалуйста введите отзыв!')
-            // }
 
             checkInput()
 
@@ -58,7 +43,7 @@ function Reviews({ setShowReviews, getComments, reviewsComments }) {
             })
             await getComments()
             dispatch(tokenUpdate(responsefromapi.newToken))
-            // local
+
             setFlyToBackend(true)
         } catch (error1) {
             setError(error1.message)
@@ -66,41 +51,22 @@ function Reviews({ setShowReviews, getComments, reviewsComments }) {
             setNewComment('')
             setDisabled(false)
         }
-
-        // const responseAddComment = await addComment({
-        //     token: getTokenFromLocalStorage(),
-        //     text: newComment,
-        //     id: UserSelectProduct.id,
-        // })
-        //    await getComments()
-
-        // зачем обновляем пока непонятно
-        //    dispatch(tokenUpdate(responseAddComment.newToken))
     }
 
     return (
         <S.Wrapper>
-            {/* логика кнопки закрытия */}
-            {/* {showReviews ? null : ( */}
             <S.ContainerBg>
                 <S.ModalBlock>
                     <S.ModalBtnClose>
                         <S.ModalBtnCloseLine
                             onClick={() => setShowReviews(false)}
-                        >
-                            Закрыть
-                        </S.ModalBtnCloseLine>
+                        />
                     </S.ModalBtnClose>
                     <S.ModalContent>
                         <S.ModalTitle>Отзывы о товаре</S.ModalTitle>
                     </S.ModalContent>
-                    {/* <S.ModalBtnClose>
-                        <S.ModalBtnCloseLine 
-                        onClick={closeForm}
-                         />
-                    </S.ModalBtnClose> */}
+
                     <S.ModalScroll>
-                        {/* Тут логика сообщения, на случай если юзер не авторизирован */}
                         {!user ? (
                             <S.formNewArt>
                                 Для того чтобы оставить отзыв,{' '}
@@ -126,7 +92,7 @@ function Reviews({ setShowReviews, getComments, reviewsComments }) {
                                 >
                                     Опубликовать
                                 </S.formNewArtBtnPub>
-                                {/* flyToBackend - переключаем на true, уже после ответа от апи */}
+
                                 {flyToBackend ? (
                                     <S.formNewArt>
                                         Комментарий добавлен
@@ -139,7 +105,7 @@ function Reviews({ setShowReviews, getComments, reviewsComments }) {
                         )}
                         <S.gridBlock>
                             <S.ModalReviews>
-                                {/* полный блок коммента */}
+                                {/*  блок коммента */}
                                 <S.ReviewsReview>
                                     {reviewsComments &&
                                         reviewsComments.map((element) => (
