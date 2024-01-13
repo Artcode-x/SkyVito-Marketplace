@@ -4,12 +4,12 @@ import * as S from './settingsprofile.styled'
 import noPhoto from '../img/myprofile.png'
 import { tokenSelector, userSelector } from '../../store/selectors/selectors'
 import {
-    GetUser,
     editProfileAvatar,
     getTokenFromLocalStorage,
+    //  getUser,
     updateUser,
 } from '../../api/api'
-import { userStateUpdate2 } from '../../store/reducers/reducers'
+import { tokenUpdate, userStateUpdate2 } from '../../store/reducers/reducers'
 
 function SettingsProfile() {
     const dispatch = useDispatch()
@@ -44,13 +44,19 @@ function SettingsProfile() {
                 AllDataUser,
                 getTokenFromLocalStorage()
             )
-            dispatch(userStateUpdate2(response.data))
+            console.log(response.response.data)
 
-            const token = getTokenFromLocalStorage().access_token
-
-            await GetUser({ token })
+            // const token = getTokenFromLocalStorage()
+            // const token = response.newToken
+            dispatch(userStateUpdate2(response.response.data))
+            dispatch(tokenUpdate(response.newToken))
+            // await getUser({ token })
+            localStorage.setItem('token', JSON.stringify(response.newToken))
+            localStorage.setItem('user', JSON.stringify(response.response.data))
         } catch (error) {
-            console.log(error)
+            if (error.response.status === 401) {
+                console.log('токен протух')
+            }
         } finally {
             setDisabled(false)
         }
@@ -71,6 +77,9 @@ function SettingsProfile() {
             })
 
             dispatch(userStateUpdate2(response.user))
+            dispatch(tokenUpdate(response.newToken))
+            localStorage.setItem('user', JSON.stringify(response.data.user))
+            localStorage.setItem('token', JSON.stringify(response.newToken))
         } catch (error) {
             console.log(error.message)
         } finally {

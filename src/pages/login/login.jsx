@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import * as S from './login.styled'
 import img from '../../components/img/logo_modal.png'
-import { GetUser, getToken } from '../../api/api'
+import { getUser, getToken } from '../../api/api'
 import { tokenUpdate, userStateUpdate2 } from '../../store/reducers/reducers'
 import {
     formatEmail,
@@ -37,7 +37,7 @@ function Login() {
                 password,
             })
 
-            const responseUser = await GetUser({
+            const responseUser = await getUser({
                 token: responseToken.access_token,
             })
 
