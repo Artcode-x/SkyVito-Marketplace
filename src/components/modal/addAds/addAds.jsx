@@ -42,6 +42,10 @@ function AddAds() {
         console.log(ReadyUrlFoto)
     }
 
+    const closeForm = () => {
+        disaptch(addNewAdUpdate(false))
+    }
+
     const postNewAd = async () => {
         try {
             setDisabled(true)
@@ -72,16 +76,13 @@ function AddAds() {
             const getAdvByUSer = await getAdvByid(id)
 
             disaptch(userSelProdUpdate(testapi))
+            closeForm()
             navigate(`/adv/${formatUrl(testapi.title)}_${id}`)
         } catch (error) {
             setShowError(error.message)
         } finally {
             setDisabled(false)
         }
-    }
-
-    const closeForm = () => {
-        disaptch(addNewAdUpdate(false))
     }
 
     return (

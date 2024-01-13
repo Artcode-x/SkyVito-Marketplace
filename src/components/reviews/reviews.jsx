@@ -43,7 +43,10 @@ function Reviews({ setShowReviews, getComments, reviewsComments }) {
             })
             await getComments()
             dispatch(tokenUpdate(responsefromapi.newToken))
-
+            localStorage.setItem(
+                'token',
+                JSON.stringify(responsefromapi.newToken)
+            )
             setFlyToBackend(true)
         } catch (error1) {
             setError(error1.message)

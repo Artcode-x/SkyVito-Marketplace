@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 // import { useNavigate } from 'react-router-dom'
@@ -8,7 +11,7 @@ import {
     userSelProdUpdate,
 } from '../../../store/reducers/reducers'
 import * as S from './editAds.styled'
-import { editionAdv } from '../../../api/api'
+import { delfotoinAd, editionAdv, uploadFotoAd } from '../../../api/api'
 import {
     tokenSelector,
     userSelProdSelector,
@@ -30,7 +33,6 @@ function EditAds() {
 
     const [image, setImage] = useState([])
     const [urlFoto, setUrlfoto] = useState([])
-    console.log(image)
 
     const checkInputs = () => {
         if (!title) throw new Error('Не введено название')
@@ -51,6 +53,39 @@ function EditAds() {
         setUrlfoto([...urlFoto, ReadyUrlFoto])
     }
 
+    const [adData, setAdData] = useState({
+        // title: userSelectAdv.title,
+        // description: userSelectAdv.description,
+        // price: userSelectAdv.price,
+        images: userSelectAdv.images,
+    })
+
+    // 1.
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target
+    //     console.log('inputChange')
+    //     setAdData({
+    //         ...adData,
+    //         [name]: value,
+    //     })
+    // }
+    // 2.
+    // const formatingFoto = (e) => {
+    //     const files = Array.from(e.target.files) //
+    //     if (imgs.length + files.length <= 5) {
+    //         const newImages = files.map((file) => ({
+    //             id: Date.now(),
+    //             url: URL.createObjectURL(file),
+    //             // eslint-disable-next-line object-shorthand
+    //             file: file,
+    //         }))
+
+    //         setImgs([...imgs, ...newImages])
+    //     } else {
+    //         alert('Максимальное количество изображений - 5')
+    //     }
+    // }
+
     const editAdv = async () => {
         try {
             setDisabled(true)
@@ -64,11 +99,42 @@ function EditAds() {
                 id: userSelectAdv.id,
             })
             console.log(response)
-            const itsUpdateToken = response.newToken
-            disaptch(tokenUpdate(itsUpdateToken))
-            localStorage.setItem('token', JSON.stringify(itsUpdateToken))
+            const upToken = response.newToken
+            // dispatch(tokenUpdate(upToken))
+            // localStorage.setItem('token', JSON.stringify(upToken))
 
-            disaptch(userSelProdUpdate(response.response.data))
+            // удаляю все фотки - работает
+
+            let resp
+            const arrayFotos = userSelectAdv.images.length
+            for (let i = 0; i < arrayFotos; i += 1) {
+                resp = await delfotoinAd({
+                    id: userSelectAdv.id,
+                    token: upToken,
+                    urlfotki: userSelectAdv.images[i].url,
+                })
+                console.log(resp)
+            }
+            const UPtokEn = resp.newToken
+            // dispatch(tokenUpdate(UPtokEn))
+            // localStorage.setItem('token', JSON.stringify(UPtokEn))
+
+            const updid = resp.response.data.id
+            console.log(updid)
+            for (let i = 0; i < arrayFotos; i += 1) {
+                const respOnse = await uploadFotoAd({
+                    id: updid,
+                    token: UPtokEn,
+                    images: image[i],
+                })
+                // .then((res) => console.log(res))
+                // console.log(respOnse.data)
+                const itsUpdateToken = respOnse.newToken
+                disaptch(tokenUpdate(itsUpdateToken))
+                localStorage.setItem('token', JSON.stringify(itsUpdateToken))
+
+                disaptch(userSelProdUpdate(respOnse.response.data))
+            }
         } catch (error) {
             setShowError(error.message)
         } finally {
@@ -92,7 +158,9 @@ function EditAds() {
                 <S.ContainerBg>
                     <S.ModalBlock>
                         <S.ModalContent>
-                            <S.ModalTitle>Новое объявление</S.ModalTitle>
+                            <S.ModalTitle>
+                                Редактировать объявление
+                            </S.ModalTitle>
                             <S.ModalBtnClose>
                                 <S.ModalBtnCloseLine onClick={closeForm} />
                             </S.ModalBtnClose>
@@ -161,20 +229,49 @@ function EditAds() {
                                     <S.FormNewArtBarImg>
                                         <S.FormNewArtImg>
                                             <S.FormNewArtLabel htmlFor="img_upload">
-                                                {urlFoto[0] ? (
-                                                    <S.SomeImg
-                                                        src={urlFoto[0]}
-                                                    />
+                                                {/* Картинка будет заменяться */}
+                                                {/* если есть фото в обьявлении */}
+                                                {userSelectAdv.images[0].url ? (
+                                                    // покажем ссылку на?
+                                                    <S.Parent>
+                                                        <S.SomeImg
+                                                            src={
+                                                                urlFoto[0]
+                                                                    ? urlFoto[0]
+                                                                    : `http://localhost:8090/${userSelectAdv.images[0].url}`
+                                                            }
+                                                        />
+                                                        <S.FormNewArtImgCover
+                                                            accept="image/*"
+                                                            multiple
+                                                            onChange={(e) =>
+                                                                formatingFoto(e)
+                                                            }
+                                                            type="file"
+                                                            name="img_upload"
+                                                            id="img_upload"
+                                                        />
+                                                    </S.Parent>
                                                 ) : (
-                                                    <S.FormNewArtImgCover
-                                                        onChange={(e) =>
-                                                            formatingFoto(e)
-                                                        }
-                                                        type="file"
-                                                        name="img_upload"
-                                                        id="img_upload"
-                                                        //  hidden
-                                                    />
+                                                    <S.Parent>
+                                                        <S.SomeImg
+                                                            src={
+                                                                urlFoto[0]
+                                                                    ? urlFoto[0]
+                                                                    : `http://localhost:8090/${userSelectAdv.images[0].url}`
+                                                            }
+                                                        />
+                                                        <S.FormNewArtImgCover
+                                                            accept="image/*"
+                                                            multiple
+                                                            onChange={(e) =>
+                                                                formatingFoto(e)
+                                                            }
+                                                            type="file"
+                                                            name="img_upload"
+                                                            id="img_upload"
+                                                        />
+                                                    </S.Parent>
                                                 )}
                                             </S.FormNewArtLabel>
                                         </S.FormNewArtImg>

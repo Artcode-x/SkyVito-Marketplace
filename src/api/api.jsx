@@ -47,7 +47,7 @@ export async function getToken({ email, password }) {
 }
 
 // Получить текущего юзера
-export async function GetUser({ token }) {
+export async function getUser({ token }) {
     const response = await axios({
         method: 'GET',
         url: `${way}/user`,
@@ -103,7 +103,7 @@ export async function addComment({ id, token, text }) {
 }
 // обновление данных в profile
 export const updateUser = async (user, token) => {
-    // const newToken = await refreshTokens({ token })
+    const newToken = await refreshTokens({ token })
     const response = await axios(`${way}/user`, {
         method: 'PATCH',
         headers: {
@@ -119,7 +119,7 @@ export const updateUser = async (user, token) => {
             city: user.city,
         }),
     })
-    return response
+    return { response, newToken }
 }
 
 // обновить токены
@@ -228,4 +228,87 @@ export async function editionAdv({
     return { response, newToken }
 }
 
+// Удаление фото (в edit)
+export async function delfotoinAd({ id, token, urlfotki }) {
+    const newToken = await updateToken({ token })
+    const response = await axios(
+        `${way}/ads/${id}/image?file_url=${urlfotki}`,
+        {
+            method: 'DELETE',
+            headers: {
+                authorization: `Bearer ${newToken.access_token}`,
+            },
+        }
+    )
+    return { response, newToken }
+}
+
+export async function uploadFotoAd({ id, token, images }) {
+    const newToken = await updateToken({ token })
+    const response = await axios(`${way}/ads/${id}/image`, {
+        method: 'POST',
+        data: images,
+        headers: {
+            // 'content-type': 'multipart/form-data',
+            authorization: `Bearer ${newToken.access_token}`,
+        },
+    })
+    return { response, newToken }
+}
+
 export default GetAllAds
+
+// для тестов
+export async function kill401() {
+    const token = getTokenFromLocalStorage().access_token // текущий токен
+    const endpoint = `${way}/user` // эндпоинт для получения данных
+
+    const responseX = await axios(endpoint, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+    // console.log(responseX.data)
+    //  return response.data
+    if (responseX.status === 401) {
+        const newTokenX = await updateToken({ token })
+        localStorage.setItem('token', JSON.stringify(newTokenX))
+        // console.log(newTokenX)
+        return newTokenX
+        // eslint-disable-next-line no-else-return
+    } else {
+        const without401 = await responseX.data
+        //   console.log(without401)
+        return without401
+    }
+}
+//         if (response.status === 401) {
+//             // Если получили ошибку 401, значит токен устарел
+//             // Здесь можно обновить токен и попробовать получить данные заново
+//             const refreshedToken = await refreshAccessToken(token)
+//             if (refreshedToken) {
+//                 token = refreshedToken
+//                 const updatedResponse = await fetch(endpoint, {
+//                     method: 'GET',
+//                     headers: {
+//                         Authorization: `Bearer ${refreshedToken}`,
+//                     },
+//                 })
+//                 const data = await updatedResponse.json()
+//                 // Обработка полученных данных после обновления токена
+//                 return data
+//             }
+//         } else {
+//             const data = await response.json()
+//             // Обработка полученных данных
+//             // console.log(" /user at fetchCurrentUserData with no 401");
+//             return data
+//         }
+//     } catch (error) {
+//         // Обработка других ошибок
+//         const err = error.detail[0].msg ?? error.detail
+//         throw new Error(err)
+//     }
+//     return null
+// }
