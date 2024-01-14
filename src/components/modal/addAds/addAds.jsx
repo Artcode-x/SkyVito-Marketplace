@@ -44,7 +44,6 @@ function AddAds() {
         setImage((prev) => prev.concat(fotoAfterFormat))
         const ReadyUrlFoto = URL.createObjectURL(file)
         setUrlfoto([...urlFoto, ReadyUrlFoto])
-        console.log(ReadyUrlFoto)
     }
 
     const closeForm = () => {
@@ -56,38 +55,24 @@ function AddAds() {
             setDisabled(true)
             checkInputs()
 
-            // создаем объяв без изобр-ий
             const newAdWithoutImg = await addPublish({
                 title,
                 description,
                 price,
-                //    token,
             })
-            //   const updateTokenFromApi = newAdWithoutImg.newToken
-            //   disaptch(tokenUpdate(updateTokenFromApi))
-            //  localStorage.setItem('token', JSON.stringify(updateTokenFromApi))
-
-            //   const { id } = newAdWithoutImg.response.data
-            // console.log(newAdWithoutImg.id)
-            //  const { id } = newAdWithoutImg.id
-
             let testapi
             const fileCount = image.length > 5 ? 5 : image.length
             for (let i = 0; i < fileCount; i += 1) {
                 testapi = await addImgPublish({
                     id: newAdWithoutImg.id,
                     test: image[i],
-                    //   updateTokenFromApi,
                 })
             }
-            // const getAdvByUSer = await getAdvByid(id)
-            console.log(testapi)
             disaptch(userSelProdUpdate(testapi))
             closeForm()
             navigate(`/adv/${formatUrl(testapi.title)}_${newAdWithoutImg.id}`)
         } catch (error) {
             setShowError(error.message)
-            console.log(error.response.status)
             if (error.response.status === 401) {
                 await updateToken()
 
@@ -95,17 +80,13 @@ function AddAds() {
                     title,
                     description,
                     price,
-                    //    token,
                 })
-                // const { id } = newAdWithoutImg.id
-
                 let testapi
                 const fileCount = image.length > 5 ? 5 : image.length
                 for (let i = 0; i < fileCount; i += 1) {
                     testapi = await addImgPublish({
                         id: newAdWithoutImg.id,
                         test: image[i],
-                        //   updateTokenFromApi,
                     })
                 }
                 disaptch(userSelProdUpdate(testapi))

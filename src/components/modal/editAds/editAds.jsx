@@ -3,7 +3,6 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { useNavigate } from 'react-router-dom'
 import noPhoto from '../../img/no-photo.avif'
 import {
     addEditAdWindow,
@@ -59,39 +58,6 @@ function EditAds() {
         setUrlfoto([...urlFoto, ReadyUrlFoto])
     }
 
-    const [adData, setAdData] = useState({
-        // title: userSelectAdv.title,
-        // description: userSelectAdv.description,
-        // price: userSelectAdv.price,
-        images: userSelectAdv.images,
-    })
-
-    // 1.
-    // const handleInputChange = (e) => {
-    //     const { name, value } = e.target
-    //     console.log('inputChange')
-    //     setAdData({
-    //         ...adData,
-    //         [name]: value,
-    //     })
-    // }
-    // 2.
-    // const formatingFoto = (e) => {
-    //     const files = Array.from(e.target.files) //
-    //     if (imgs.length + files.length <= 5) {
-    //         const newImages = files.map((file) => ({
-    //             id: Date.now(),
-    //             url: URL.createObjectURL(file),
-    //             // eslint-disable-next-line object-shorthand
-    //             file: file,
-    //         }))
-
-    //         setImgs([...imgs, ...newImages])
-    //     } else {
-    //         alert('Максимальное количество изображений - 5')
-    //     }
-    // }
-
     const editAdv = async () => {
         try {
             setDisabled(true)
@@ -100,34 +66,24 @@ function EditAds() {
                 title,
                 description,
                 price,
-                // images: image[0],
-                //  token: tokenFromState,
                 id: userSelectAdv.id,
             })
-            console.log(response)
-            // удаляю все фотки - работает
-
             const arrayFotos = userSelectAdv.images.length
             for (let i = 0; i < arrayFotos; i += 1) {
                 response = await delfotoinAd({
                     id: userSelectAdv.id,
-                    //   token: upToken,
                     urlfotki: userSelectAdv.images[i].url,
                 })
             }
             const updid = response.id
-            console.log(updid)
             for (let i = 0; i < arrayFotos; i += 1) {
                 response = await uploadFotoAd({
                     id: updid,
-                    //    token: UPtokEn,
                     images: image[i],
                 })
                 disaptch(userSelProdUpdate(response))
             }
         } catch (error) {
-            console.log(error)
-
             if (error.status === 401) {
                 await updateToken()
                 let response = await editionAdv({
@@ -142,12 +98,10 @@ function EditAds() {
                     await updateToken()
                     response = await delfotoinAd({
                         id: userSelectAdv.id,
-                        //   token: upToken,
                         urlfotki: userSelectAdv.images[i].url,
                     })
                 }
                 const updid = response.id
-                console.log(updid)
 
                 for (let i = 0; i < arrayFotos; i += 1) {
                     await updateToken()

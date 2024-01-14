@@ -8,10 +8,9 @@ export const getTokenFromLocalStorage = () => {
     return token ? JSON.parse(token) : null
 }
 
+// обновление токена в LocalStorage
 export async function updateToken() {
-    // если где то попадаем на ошибку 401, берется токен с localstorage
     const token = localStorage.getItem('token')
-    // обновляем токен
     const response = await axios(`${way}/auth/login`, {
         method: 'PUT',
         data: JSON.stringify({
@@ -23,7 +22,6 @@ export async function updateToken() {
             Authorization: `Bearer ${token.access_token}`,
         },
     })
-    // записываем обновленный в LocalStorage
     return localStorage.setItem('token', JSON.stringify(response.data))
 }
 
@@ -160,7 +158,6 @@ export const updateUser = async (user) => {
 
 // смена аватарки
 export async function editProfileAvatar({ formAvatar }) {
-    console.log(formAvatar)
     const response = await axios(`${way}/user/avatar`, {
         method: 'POST',
         data: formAvatar,

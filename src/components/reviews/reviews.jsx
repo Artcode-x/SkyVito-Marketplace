@@ -1,38 +1,21 @@
 import { Link } from 'react-router-dom'
-import {
-    //  useDispatch,
-    useSelector,
-} from 'react-redux'
-import {
-    //  useEffect,
-    useState,
-} from 'react'
+import { useSelector } from 'react-redux'
+import { useState } from 'react'
 import * as S from './reviews.styled'
 import {
-    // tokenSelector,
     userSelProdSelector,
     userSelector,
 } from '../../store/selectors/selectors'
 import noPhoto from '../img/no-photo.avif'
-import {
-    addComment,
-    //  getCommentsAdv,
-    updateToken,
-} from '../../api/api'
-// import { tokenUpdate } from '../../store/reducers/reducers'
+import { addComment, updateToken } from '../../api/api'
 
 function Reviews({ setShowReviews, getComments, reviewsComments }) {
-    //   const dispatch = useDispatch()
     const user = useSelector(userSelector)
-
-    // const token = useSelector(tokenSelector)
-
     const UserSelectProduct = useSelector(userSelProdSelector)
 
     const [newComment, setNewComment] = useState()
     const [flyToBackend, setFlyToBackend] = useState(false)
     const [error1, setError1] = useState(false)
-
     const [disabled, setDisabled] = useState(false)
 
     const clickAddComment = async () => {
@@ -45,31 +28,19 @@ function Reviews({ setShowReviews, getComments, reviewsComments }) {
             setDisabled(true)
 
             checkInput()
-            console.log(UserSelectProduct.id)
-            //  const responsefromapi =
             await addComment({
                 text: newComment,
                 id: UserSelectProduct.id,
-                //     token,
             })
             await getComments()
-
-            // dispatch(tokenUpdate(responsefromapi.newToken))
-            // localStorage.setItem(
-            //     'token',
-            //     JSON.stringify(responsefromapi.newToken)
-            // )
-
             setFlyToBackend(true)
         } catch (error) {
-            console.log(error)
             setError1(error.message)
             if (error.response.status === 401) {
                 await updateToken()
                 await addComment({
                     text: newComment,
                     id: UserSelectProduct.id,
-                    //     token,
                 })
                 await getComments()
             }
@@ -79,9 +50,6 @@ function Reviews({ setShowReviews, getComments, reviewsComments }) {
         }
     }
 
-    // useEffect(() => {
-    //     setError1(null)
-    // }, [newComment])
     return (
         <S.Wrapper>
             <S.ContainerBg>

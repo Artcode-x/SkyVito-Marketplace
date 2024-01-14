@@ -88,7 +88,7 @@ export function formatMail(mail) {
     return mail.slice(0, mail.indexOf('@'))
 }
 
-// Эта ф-ия заменит символ / в адресной строке, чтобы отобразилось объявление со смартфоном. До этого этот символ ломал адрес
+// formatUrl
 export function formatSymbols(string) {
     if (string) {
         const customString = string.toLowerCase()
@@ -98,7 +98,7 @@ export function formatSymbols(string) {
     return ''
 }
 
-// форматируем адрес максимально близко к авито
+// formatUrl
 export function formatUrl(url) {
     const iReplace = {
         а: 'a',
@@ -155,24 +155,14 @@ export function formatEmail(email) {
 }
 
 // Search
-
 export function searchItem(title, search) {
     return formatLowString(title).includes(formatLowString(search))
 }
 
-// pressKey
-
 export function pressEnterKey(event, callback, disabled) {
     if (disabled) return
-    // keyode === 13 это enter
     if (event.keyCode === 13) callback()
 }
-
-// export function editEndReviews(num) {
-//     if (num > 4 &&  num < 21 ) return num + ' отзывов'
-//     if ((num+ 20) &&  num < 21 ) return num + ' отзывов'
-
-// }
 
 export function formatReviews(numb) {
     if (numb === undefined) return ''

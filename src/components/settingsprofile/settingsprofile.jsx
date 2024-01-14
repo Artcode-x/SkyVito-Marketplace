@@ -2,27 +2,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import * as S from './settingsprofile.styled'
 import noPhoto from '../img/myprofile.png'
-import {
-    // tokenSelector,
-    userSelector,
-} from '../../store/selectors/selectors'
-import {
-    editProfileAvatar,
-    updateToken,
-    //  getTokenFromLocalStorage,
-    //   updateToken,
-    //  getUser,
-    updateUser,
-} from '../../api/api'
-import {
-    // tokenUpdate,
-    userStateUpdate2,
-} from '../../store/reducers/reducers'
+import { userSelector } from '../../store/selectors/selectors'
+import { editProfileAvatar, updateToken, updateUser } from '../../api/api'
+import { userStateUpdate2 } from '../../store/reducers/reducers'
 
 function SettingsProfile() {
     const dispatch = useDispatch()
     const user = useSelector(userSelector)
-    //  const tokenFromState = useSelector(tokenSelector)
     const [disabled, setDisabled] = useState(false)
     const [loadingImg, setLoadingImg] = useState(false)
     const [AllDataUser, setAllDataUser] = useState(user)
@@ -48,15 +34,8 @@ function SettingsProfile() {
         try {
             setDisabled(true)
 
-            const response = await updateUser(
-                AllDataUser
-                // getTokenFromLocalStorage()
-            )
-            // const token = getTokenFromLocalStorage()
-            // const token = response.newToken
+            const response = await updateUser(AllDataUser)
             dispatch(userStateUpdate2(response))
-            // dispatch(tokenUpdate(response.newToken))
-            // await getUser({ token })
             localStorage.setItem('user', JSON.stringify(response))
         } catch (error) {
             if (error.response.status === 401) {
@@ -84,20 +63,11 @@ function SettingsProfile() {
                 // token: tokenFromState,
             })
             dispatch(userStateUpdate2(response))
-            //  dispatch(tokenUpdate(response.newToken))
-            //  localStorage.setItem('user', JSON.stringify(response.data.user))
-            //   localStorage.setItem('token', JSON.stringify(response.newToken))
         } catch (error) {
-            console.log(error)
             if (error.response.status === 401) {
                 await updateToken()
-
-                // setLoadingImg(true)
                 const formAvatar = new FormData()
                 formAvatar.append('file', avatar)
-
-                // const formAvatar = new FormData()
-                // formAvatar.append('file', avatar)
                 const response = await editProfileAvatar({ formAvatar })
                 dispatch(userStateUpdate2(response))
                 localStorage.setItem('user', JSON.stringify(response))
