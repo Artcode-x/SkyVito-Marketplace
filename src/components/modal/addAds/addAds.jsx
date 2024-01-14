@@ -11,7 +11,12 @@ import {
     userSelProdUpdate,
 } from '../../../store/reducers/reducers'
 import { tokenSelector } from '../../../store/selectors/selectors'
-import { addImgPublish, addPublish, getAdvByid } from '../../../api/api'
+import {
+    addImgPublish,
+    addPublish,
+    getAdvByid,
+    updateToken,
+} from '../../../api/api'
 
 function AddAds() {
     const disaptch = useDispatch()
@@ -56,30 +61,59 @@ function AddAds() {
                 title,
                 description,
                 price,
-                token,
+                //    token,
             })
-            const updateTokenFromApi = newAdWithoutImg.newToken
-            disaptch(tokenUpdate(updateTokenFromApi))
-            localStorage.setItem('token', JSON.stringify(updateTokenFromApi))
+            //   const updateTokenFromApi = newAdWithoutImg.newToken
+            //   disaptch(tokenUpdate(updateTokenFromApi))
+            //  localStorage.setItem('token', JSON.stringify(updateTokenFromApi))
 
-            const { id } = newAdWithoutImg.response.data
+            //   const { id } = newAdWithoutImg.response.data
+            // console.log(newAdWithoutImg.id)
+            //  const { id } = newAdWithoutImg.id
 
             let testapi
             const fileCount = image.length > 5 ? 5 : image.length
             for (let i = 0; i < fileCount; i += 1) {
                 testapi = await addImgPublish({
-                    id,
+                    id: newAdWithoutImg.id,
                     test: image[i],
-                    updateTokenFromApi,
+                    //   updateTokenFromApi,
                 })
             }
-            const getAdvByUSer = await getAdvByid(id)
-
+            // const getAdvByUSer = await getAdvByid(id)
+            console.log(testapi)
             disaptch(userSelProdUpdate(testapi))
             closeForm()
-            navigate(`/adv/${formatUrl(testapi.title)}_${id}`)
+            navigate(`/adv/${formatUrl(testapi.title)}_${newAdWithoutImg.id}`)
         } catch (error) {
             setShowError(error.message)
+            console.log(error.response.status)
+            if (error.response.status === 401) {
+                await updateToken()
+
+                const newAdWithoutImg = await addPublish({
+                    title,
+                    description,
+                    price,
+                    //    token,
+                })
+                // const { id } = newAdWithoutImg.id
+
+                let testapi
+                const fileCount = image.length > 5 ? 5 : image.length
+                for (let i = 0; i < fileCount; i += 1) {
+                    testapi = await addImgPublish({
+                        id: newAdWithoutImg.id,
+                        test: image[i],
+                        //   updateTokenFromApi,
+                    })
+                }
+                disaptch(userSelProdUpdate(testapi))
+                closeForm()
+                navigate(
+                    `/adv/${formatUrl(testapi.title)}_${newAdWithoutImg.id}`
+                )
+            }
         } finally {
             setDisabled(false)
         }

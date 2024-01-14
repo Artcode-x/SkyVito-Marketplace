@@ -8,7 +8,7 @@ import noPhoto from '../../components/img/no-photo.avif'
 import {
     flagforEditAdSelector,
     showEditAdWindowSelector,
-    tokenSelector,
+    // tokenSelector,
     userSelProdSelector,
     userSelector,
 } from '../../store/selectors/selectors'
@@ -20,10 +20,13 @@ import {
     formatSellsDate,
     formatUrl,
 } from '../../helpers/helpers'
-import { delAdv, getCommentsAdv } from '../../api/api'
+import { delAdv, getCommentsAdv, updateToken } from '../../api/api'
 import Reviews from '../../components/reviews/reviews'
 import Footer from '../../components/footer/footer'
-import { addEditAdWindow, tokenUpdate } from '../../store/reducers/reducers'
+import {
+    addEditAdWindow,
+    //  tokenUpdate
+} from '../../store/reducers/reducers'
 import Msg from '../../components/modal/msg'
 import EditAds from '../../components/modal/editAds/editAds'
 import MessageSuccessEdit from '../../components/modal/msgGoodEditAd/MessageSuccessEdit'
@@ -39,22 +42,20 @@ function AdvPage() {
     const userSelectAdv = useSelector(userSelProdSelector)
     const someAdvId = userSelectAdv.user_id
 
-    const tokenFromState = useSelector(tokenSelector)
+    // const tokenFromState = useSelector(tokenSelector)
 
     const navigate = useNavigate()
     const [disabled, setdisabled] = useState(false)
 
     const [reviewsComments, setReviewsComments] = useState(false)
     const [showReviews, setShowReviews] = useState(false)
-   
+
     const UserSelectProd = useSelector(userSelProdSelector)
 
-   
     const [userPhoneBtn, setShowUserPhoneBtn] = useState(true)
     const [messageForUser, setMessageForUser] = useState(false)
 
     const showUserPhone = () => {
-       
         setShowUserPhoneBtn(false)
     }
 
@@ -65,18 +66,25 @@ function AdvPage() {
     const deleteAdv = async () => {
         try {
             setdisabled(true)
-            const response = await delAdv({
-                token: tokenFromState,
+            //  const response =
+            await delAdv({
+                //  token: tokenFromState,
                 id: userSelectAdv.id,
             })
-            const thisUpdateToken = response.newToken
+            //    const thisUpdateToken = response.newToken
 
-            dispatch(tokenUpdate(thisUpdateToken))
+            //    dispatch(tokenUpdate(thisUpdateToken))
 
-          
             setMessageForUser(true)
         } catch (error) {
-            console.log(error.message)
+            //  console.log(error.message)
+            if (error.status === 401) {
+                await updateToken()
+                await delAdv({
+                    //  token: tokenFromState,
+                    id: userSelectAdv.id,
+                })
+            }
         } finally {
             setdisabled(false)
 
@@ -94,11 +102,9 @@ function AdvPage() {
         navigate(`/selProfile/${UserSelectProd.user.id}`)
     }
 
-  
     const getComments = async () => {
         const response = await getCommentsAdv({ id: UserSelectProd.id })
         setReviewsComments(response)
-      
     }
 
     useEffect(() => {

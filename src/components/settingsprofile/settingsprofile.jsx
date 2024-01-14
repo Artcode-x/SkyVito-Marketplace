@@ -2,19 +2,27 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import * as S from './settingsprofile.styled'
 import noPhoto from '../img/myprofile.png'
-import { tokenSelector, userSelector } from '../../store/selectors/selectors'
+import {
+    // tokenSelector,
+    userSelector,
+} from '../../store/selectors/selectors'
 import {
     editProfileAvatar,
-    getTokenFromLocalStorage,
+    updateToken,
+    //  getTokenFromLocalStorage,
+    //   updateToken,
     //  getUser,
     updateUser,
 } from '../../api/api'
-import { tokenUpdate, userStateUpdate2 } from '../../store/reducers/reducers'
+import {
+    // tokenUpdate,
+    userStateUpdate2,
+} from '../../store/reducers/reducers'
 
 function SettingsProfile() {
     const dispatch = useDispatch()
     const user = useSelector(userSelector)
-    const tokenFromState = useSelector(tokenSelector)
+    //  const tokenFromState = useSelector(tokenSelector)
     const [disabled, setDisabled] = useState(false)
     const [loadingImg, setLoadingImg] = useState(false)
     const [AllDataUser, setAllDataUser] = useState(user)
@@ -41,21 +49,21 @@ function SettingsProfile() {
             setDisabled(true)
 
             const response = await updateUser(
-                AllDataUser,
-                getTokenFromLocalStorage()
+                AllDataUser
+                // getTokenFromLocalStorage()
             )
-            console.log(response.response.data)
-
             // const token = getTokenFromLocalStorage()
             // const token = response.newToken
-            dispatch(userStateUpdate2(response.response.data))
-            dispatch(tokenUpdate(response.newToken))
+            dispatch(userStateUpdate2(response))
+            // dispatch(tokenUpdate(response.newToken))
             // await getUser({ token })
-            localStorage.setItem('token', JSON.stringify(response.newToken))
-            localStorage.setItem('user', JSON.stringify(response.response.data))
+            localStorage.setItem('user', JSON.stringify(response))
         } catch (error) {
             if (error.response.status === 401) {
-                console.log('токен протух')
+                await updateToken()
+                const response = await updateUser(AllDataUser)
+                dispatch(userStateUpdate2(response))
+                localStorage.setItem('user', JSON.stringify(response))
             }
         } finally {
             setDisabled(false)
@@ -73,15 +81,27 @@ function SettingsProfile() {
 
             const response = await editProfileAvatar({
                 formAvatar,
-                token: tokenFromState,
+                // token: tokenFromState,
             })
-
-            dispatch(userStateUpdate2(response.user))
-            dispatch(tokenUpdate(response.newToken))
-            localStorage.setItem('user', JSON.stringify(response.data.user))
-            localStorage.setItem('token', JSON.stringify(response.newToken))
+            dispatch(userStateUpdate2(response))
+            //  dispatch(tokenUpdate(response.newToken))
+            //  localStorage.setItem('user', JSON.stringify(response.data.user))
+            //   localStorage.setItem('token', JSON.stringify(response.newToken))
         } catch (error) {
-            console.log(error.message)
+            console.log(error)
+            if (error.response.status === 401) {
+                await updateToken()
+
+                // setLoadingImg(true)
+                const formAvatar = new FormData()
+                formAvatar.append('file', avatar)
+
+                // const formAvatar = new FormData()
+                // formAvatar.append('file', avatar)
+                const response = await editProfileAvatar({ formAvatar })
+                dispatch(userStateUpdate2(response))
+                localStorage.setItem('user', JSON.stringify(response))
+            }
         } finally {
             setLoadingImg(false)
         }
