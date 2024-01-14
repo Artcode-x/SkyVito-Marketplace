@@ -1,7 +1,5 @@
 import { useSelector } from 'react-redux'
-
 import * as S from './profile.styled'
-
 import CustomHeader from '../../components/custom-header/custom-header'
 import UpMenu from '../../components/up-menu/up-menu'
 import SettingsProfile from '../../components/settingsprofile/settingsprofile'
@@ -14,13 +12,11 @@ import AddAds from '../../components/modal/addAds/addAds'
 
 function Profile() {
     const user = useSelector(userSelector)
-
     const showAddNewAd = useSelector(showAddNewAdWindwowSelector)
+
     return (
         <S.Wrapper>
             <S.Container>
-                {/* тут отдельно заголовок */}
-
                 {showAddNewAd && (
                     <S.Cover>
                         <AddAds />

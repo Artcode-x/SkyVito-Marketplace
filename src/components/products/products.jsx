@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { Link } from 'react-router-dom'
 import { useLocation, useNavigate } from 'react-router-dom'
 import * as S from './products.styled'
 import noPhoto from '../img/no-photo.avif'
@@ -35,25 +34,14 @@ function Products({ id }) {
         }
     }
 
-    // тут пишем search вместо searchInputText - чтобы избежать коллизии имен (18/46 стр) (а так это одно и тоже)
     const searchItem = (title, search) => {
-        // приводим к нижнему регистру
-        // методом search Проверка идет по каждому символу
-        // если совпадений не найдено, будет -1 и return false, и в пропс S.CardsItem вернется display:none - скроет все обьявления
         if (title.toLowerCase().search(search.toLowerCase()) === -1)
             return false
-        // если true - в пропс S.CardsItem вернется display:block - будут отображены совпадения в обьявлениях
         return true
     }
     const selectProduct = (ad) => {
         dispatch(userSelProdUpdate(ad))
-        // записать в редакс объект с обьявлением, которое выбрал user
-        // далее исп-ем эти данные на стр advpage, для отображения объявления
-
-        // сохраняем в localhost для дальнейшей реализации некоторых проверок
         localStorage.setItem('UserSelectedAd', JSON.stringify(ad))
-        // Делаем адрес (выбранного юзером объвл-ия) в браузере похожим на авито. Сначала заголовок, затем id объявления
-        // ф-ия formatTitle из helpers заменяет пробел на прочерк в браузере
         navigate(`/adv/${formatUrl(ad.title)}_${ad.id}`)
     }
     useEffect(() => {

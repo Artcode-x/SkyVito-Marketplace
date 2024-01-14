@@ -4,7 +4,7 @@ import { useState } from 'react'
 import * as S from './login.styled'
 import img from '../../components/img/logo_modal.png'
 import { getUser, getToken } from '../../api/api'
-import { tokenUpdate, userStateUpdate2 } from '../../store/reducers/reducers'
+import { userStateUpdate2 } from '../../store/reducers/reducers'
 import {
     formatEmail,
     formatUrl,
@@ -36,17 +36,10 @@ function Login() {
                 email,
                 password,
             })
-
-            const responseUser = await getUser({
-                token: responseToken.access_token,
-            })
-
-            dispatch(tokenUpdate(responseToken))
-            dispatch(userStateUpdate2(responseUser))
-
             localStorage.setItem('token', JSON.stringify(responseToken))
+            const responseUser = await getUser()
+            dispatch(userStateUpdate2(responseUser))
             localStorage.setItem('user', JSON.stringify(responseUser))
-
             navigate(
                 `/profile/${formatUrl(formatEmail(responseUser.email))}_${
                     responseUser.id

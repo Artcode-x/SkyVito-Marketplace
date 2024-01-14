@@ -1,17 +1,21 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as S from './footer.styled'
 import img01 from '../img/icon_01.png'
 import img02 from '../img/icon_02.png'
 import img03 from '../img/icon_03.png'
 import { addNewAdUpdate } from '../../store/reducers/reducers'
+import { userSelector } from '../../store/selectors/selectors'
 
 function Footer() {
+    const user = useSelector(userSelector)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const setOpenFormAddAds = () => {
-        dispatch(addNewAdUpdate(true))
+        if (user.id) {
+            dispatch(addNewAdUpdate(true))
+        }
     }
 
     const gotoGeneral = () => {

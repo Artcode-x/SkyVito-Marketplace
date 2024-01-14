@@ -11,7 +11,12 @@ import {
     userSelProdUpdate,
 } from '../../../store/reducers/reducers'
 import { tokenSelector } from '../../../store/selectors/selectors'
-import { addImgPublish, addPublish, getAdvByid } from '../../../api/api'
+import {
+    addImgPublish,
+    addPublish,
+    getAdvByid,
+    updateToken,
+} from '../../../api/api'
 
 function AddAds() {
     const disaptch = useDispatch()
@@ -39,7 +44,6 @@ function AddAds() {
         setImage((prev) => prev.concat(fotoAfterFormat))
         const ReadyUrlFoto = URL.createObjectURL(file)
         setUrlfoto([...urlFoto, ReadyUrlFoto])
-        console.log(ReadyUrlFoto)
     }
 
     const closeForm = () => {
@@ -51,35 +55,46 @@ function AddAds() {
             setDisabled(true)
             checkInputs()
 
-            // создаем объяв без изобр-ий
             const newAdWithoutImg = await addPublish({
                 title,
                 description,
                 price,
-                token,
             })
-            const updateTokenFromApi = newAdWithoutImg.newToken
-            disaptch(tokenUpdate(updateTokenFromApi))
-            localStorage.setItem('token', JSON.stringify(updateTokenFromApi))
-
-            const { id } = newAdWithoutImg.response.data
-
             let testapi
             const fileCount = image.length > 5 ? 5 : image.length
             for (let i = 0; i < fileCount; i += 1) {
                 testapi = await addImgPublish({
-                    id,
+                    id: newAdWithoutImg.id,
                     test: image[i],
-                    updateTokenFromApi,
                 })
             }
-            const getAdvByUSer = await getAdvByid(id)
-
             disaptch(userSelProdUpdate(testapi))
             closeForm()
-            navigate(`/adv/${formatUrl(testapi.title)}_${id}`)
+            navigate(`/adv/${formatUrl(testapi.title)}_${newAdWithoutImg.id}`)
         } catch (error) {
             setShowError(error.message)
+            if (error.response.status === 401) {
+                await updateToken()
+
+                const newAdWithoutImg = await addPublish({
+                    title,
+                    description,
+                    price,
+                })
+                let testapi
+                const fileCount = image.length > 5 ? 5 : image.length
+                for (let i = 0; i < fileCount; i += 1) {
+                    testapi = await addImgPublish({
+                        id: newAdWithoutImg.id,
+                        test: image[i],
+                    })
+                }
+                disaptch(userSelProdUpdate(testapi))
+                closeForm()
+                navigate(
+                    `/adv/${formatUrl(testapi.title)}_${newAdWithoutImg.id}`
+                )
+            }
         } finally {
             setDisabled(false)
         }

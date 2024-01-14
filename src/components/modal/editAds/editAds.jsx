@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { useNavigate } from 'react-router-dom'
+import noPhoto from '../../img/no-photo.avif'
 import {
     addEditAdWindow,
     addFlagforEditAd,
@@ -11,7 +11,12 @@ import {
     userSelProdUpdate,
 } from '../../../store/reducers/reducers'
 import * as S from './editAds.styled'
-import { delfotoinAd, editionAdv, uploadFotoAd } from '../../../api/api'
+import {
+    delfotoinAd,
+    editionAdv,
+    updateToken,
+    uploadFotoAd,
+} from '../../../api/api'
 import {
     tokenSelector,
     userSelProdSelector,
@@ -53,90 +58,61 @@ function EditAds() {
         setUrlfoto([...urlFoto, ReadyUrlFoto])
     }
 
-    const [adData, setAdData] = useState({
-        // title: userSelectAdv.title,
-        // description: userSelectAdv.description,
-        // price: userSelectAdv.price,
-        images: userSelectAdv.images,
-    })
-
-    // 1.
-    // const handleInputChange = (e) => {
-    //     const { name, value } = e.target
-    //     console.log('inputChange')
-    //     setAdData({
-    //         ...adData,
-    //         [name]: value,
-    //     })
-    // }
-    // 2.
-    // const formatingFoto = (e) => {
-    //     const files = Array.from(e.target.files) //
-    //     if (imgs.length + files.length <= 5) {
-    //         const newImages = files.map((file) => ({
-    //             id: Date.now(),
-    //             url: URL.createObjectURL(file),
-    //             // eslint-disable-next-line object-shorthand
-    //             file: file,
-    //         }))
-
-    //         setImgs([...imgs, ...newImages])
-    //     } else {
-    //         alert('Максимальное количество изображений - 5')
-    //     }
-    // }
-
     const editAdv = async () => {
         try {
             setDisabled(true)
             checkInputs()
-            const response = await editionAdv({
+            let response = await editionAdv({
                 title,
                 description,
                 price,
-                // images: urlFoto,
-                token: tokenFromState,
                 id: userSelectAdv.id,
             })
-            console.log(response)
-            const upToken = response.newToken
-            // dispatch(tokenUpdate(upToken))
-            // localStorage.setItem('token', JSON.stringify(upToken))
-
-            // удаляю все фотки - работает
-
-            let resp
             const arrayFotos = userSelectAdv.images.length
             for (let i = 0; i < arrayFotos; i += 1) {
-                resp = await delfotoinAd({
+                response = await delfotoinAd({
                     id: userSelectAdv.id,
-                    token: upToken,
                     urlfotki: userSelectAdv.images[i].url,
                 })
-                console.log(resp)
             }
-            const UPtokEn = resp.newToken
-            // dispatch(tokenUpdate(UPtokEn))
-            // localStorage.setItem('token', JSON.stringify(UPtokEn))
-
-            const updid = resp.response.data.id
-            console.log(updid)
+            const updid = response.id
             for (let i = 0; i < arrayFotos; i += 1) {
-                const respOnse = await uploadFotoAd({
+                response = await uploadFotoAd({
                     id: updid,
-                    token: UPtokEn,
                     images: image[i],
                 })
-                // .then((res) => console.log(res))
-                // console.log(respOnse.data)
-                const itsUpdateToken = respOnse.newToken
-                disaptch(tokenUpdate(itsUpdateToken))
-                localStorage.setItem('token', JSON.stringify(itsUpdateToken))
-
-                disaptch(userSelProdUpdate(respOnse.response.data))
+                disaptch(userSelProdUpdate(response))
             }
         } catch (error) {
-            setShowError(error.message)
+            if (error.status === 401) {
+                await updateToken()
+                let response = await editionAdv({
+                    title,
+                    description,
+                    price,
+                    id: userSelectAdv.id,
+                })
+
+                const arrayFotos = userSelectAdv.images.length
+                for (let i = 0; i < arrayFotos; i += 1) {
+                    await updateToken()
+                    response = await delfotoinAd({
+                        id: userSelectAdv.id,
+                        urlfotki: userSelectAdv.images[i].url,
+                    })
+                }
+                const updid = response.id
+
+                for (let i = 0; i < arrayFotos; i += 1) {
+                    await updateToken()
+                    response = await uploadFotoAd({
+                        id: updid,
+                        images: image[i],
+                    })
+
+                    disaptch(userSelProdUpdate(response))
+                }
+            }
         } finally {
             setDisabled(false)
             disaptch(addFlagforEditAd(true))
@@ -226,19 +202,24 @@ function EditAds() {
                                             не более 5 фотографий
                                         </S.FormNewArtSpan>
                                     </S.FormNewArtP2>
+                                    {/* map */}
                                     <S.FormNewArtBarImg>
                                         <S.FormNewArtImg>
                                             <S.FormNewArtLabel htmlFor="img_upload">
                                                 {/* Картинка будет заменяться */}
                                                 {/* если есть фото в обьявлении */}
-                                                {userSelectAdv.images[0].url ? (
-                                                    // покажем ссылку на?
+
+                                                {/* // покажем ссылку на? */}
+
+                                                {userSelectAdv.images.length !==
+                                                0 ? (
                                                     <S.Parent>
                                                         <S.SomeImg
+                                                            // фото с загрузчика либо фото которое в объяве
                                                             src={
                                                                 urlFoto[0]
                                                                     ? urlFoto[0]
-                                                                    : `http://localhost:8090/${userSelectAdv.images[0].url}`
+                                                                    : `http://localhost:8090/${userSelectAdv?.images[0].url}`
                                                             }
                                                         />
                                                         <S.FormNewArtImgCover
@@ -258,7 +239,7 @@ function EditAds() {
                                                             src={
                                                                 urlFoto[0]
                                                                     ? urlFoto[0]
-                                                                    : `http://localhost:8090/${userSelectAdv.images[0].url}`
+                                                                    : noPhoto
                                                             }
                                                         />
                                                         <S.FormNewArtImgCover

@@ -32,7 +32,7 @@ function Main() {
                         <S.SearchLogoImg src={img} alt="logo" />
                     </Link>
                 </S.SearchLogoLink>
-                {/* для моб-ой */}
+                {/* for mobile */}
                 <S.SearchLogoMobLink>
                     <Link to="/">
                         <S.SearchLogoMobImg src={imgMobile} alt="logo" />
@@ -45,7 +45,7 @@ function Main() {
                         name="search"
                         onChange={(e) => dispatch(searchUpdate(e.target.value))}
                     />
-                    {/* для моб-ой */}
+                    {/* for mobile */}
                     <S.SearchTextMob
                         type="search"
                         name="search"
