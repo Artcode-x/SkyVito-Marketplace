@@ -55,45 +55,43 @@ function AddAds() {
             setDisabled(true)
             checkInputs()
 
-            const newAdWithoutImg = await addPublish({
+            let response = await addPublish({
                 title,
                 description,
                 price,
             })
-            let testapi
+
             const fileCount = image.length > 5 ? 5 : image.length
             for (let i = 0; i < fileCount; i += 1) {
-                testapi = await addImgPublish({
-                    id: newAdWithoutImg.id,
+                response = await addImgPublish({
+                    id: response.id,
                     test: image[i],
                 })
             }
-            disaptch(userSelProdUpdate(testapi))
+            disaptch(userSelProdUpdate(response))
             closeForm()
-            navigate(`/adv/${formatUrl(testapi.title)}_${newAdWithoutImg.id}`)
+            navigate(`/adv/${formatUrl(response.title)}_${response.id}`)
         } catch (error) {
             setShowError(error.message)
-            if (error.response.status === 401) {
+            console.log(error)
+            if (error.status === 401) {
                 await updateToken()
 
-                const newAdWithoutImg = await addPublish({
+                let response = await addPublish({
                     title,
                     description,
                     price,
                 })
-                let testapi
                 const fileCount = image.length > 5 ? 5 : image.length
                 for (let i = 0; i < fileCount; i += 1) {
-                    testapi = await addImgPublish({
-                        id: newAdWithoutImg.id,
+                    response = await addImgPublish({
+                        id: response.id,
                         test: image[i],
                     })
                 }
-                disaptch(userSelProdUpdate(testapi))
+                disaptch(userSelProdUpdate(response))
                 closeForm()
-                navigate(
-                    `/adv/${formatUrl(testapi.title)}_${newAdWithoutImg.id}`
-                )
+                navigate(`/adv/${formatUrl(response.title)}_${response.id}`)
             }
         } finally {
             setDisabled(false)
