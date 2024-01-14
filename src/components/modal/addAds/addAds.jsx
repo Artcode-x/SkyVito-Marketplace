@@ -82,7 +82,6 @@ function AddAds() {
                     description,
                     price,
                 })
-
                 const fileCount = image.length > 5 ? 5 : image.length
                 for (let i = 0; i < fileCount; i += 1) {
                     response = await addImgPublish({
