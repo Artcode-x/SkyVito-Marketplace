@@ -1,4 +1,4 @@
-# Final-project
+# SkyVito Marketplace
 
 Финальный индивидуальный проект
 
@@ -61,7 +61,7 @@
 
 1. Установите Docker, следуя инструкциям для вашей операционной системы.
 2. Запустите Docker с помощью ярлыка.
-3. Откройте терминал и перейдите в папку final-project.
+3. Откройте терминал и перейдите в папку SkyVito Marketplace.
 4. Выполните в терминале команду: `docker-compose -f docker-compose-backend.yaml up -d`
 5. После первого выполнения команды все образы подтянутся, но могут не запуститься, в этом случае повторно выполните команду: `docker-compose -f docker-compose-backend.yaml up -d`
 6. После этого бэкенд и Swagger будут доступны по адресу http://localhost:8090/
@@ -75,7 +75,7 @@
 1. **Клонирование репозитория:**
 
     ```bash
-    git clone https://github.com/Artcode-x/final-project.git
+    git clone https://github.com/Artcode-x/SkyVito Marketplace.git
     ```
 
 2. **Установка зависимостей :**
