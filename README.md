@@ -75,7 +75,7 @@
 1. **Клонирование репозитория:**
 
     ```bash
-    git clone https://github.com/Artcode-x/SkyVito Marketplace.git
+    git clone https://github.com/Artcode-x/SkyVito-Marketplace.git
     ```
 
 2. **Установка зависимостей :**
